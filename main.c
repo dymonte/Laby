@@ -5,6 +5,7 @@
 #include "tab.h"
 #include "generation.h"
 #include "pathfinding.h"
+#include "verif.h"
 
 Lst_co init_start(Tab tab)
 {
@@ -28,27 +29,32 @@ int main(int argc, char const *argv[])
     int largeur = 20;
     int hauteur = 50;
 
+    Tab maze = tab_start(largeur, hauteur);
+
     // Génère un labyrinthe de taille (largeur x hauteur)
-    Tab generated_tab = generate(tab_start(largeur, hauteur), 0, 1, 0);
+    generate(maze, 0, 1, 0);
+
+    // Test de la validité du labyrinthe
+    verif_exit(verif_tab(maze));
 
     // Position aléatoire de départ pour le pathfinding
-    Lst_co co_start = init_start(generated_tab);
+    Lst_co co_start = init_start(maze);
 
     // Appel de l'algorithme de pathfinding à partir de la position de départ
-    Lst_co path = pathfinding(&generated_tab, co_start);
+    Lst_co path = pathfinding(&maze, co_start);
 
     // Affiche les coordonnées du chemin trouvé
     show_co(path);
 
     // Trace le chemin trouvé dans le labyrinthe
-    trace_path(generated_tab, path);
+    trace_path(maze, path);
 
     // Affiche le labyrinthe avec le chemin tracé
-    maze_show(generated_tab);
+    maze_show(maze);
 
     // Libère la mémoire allouée pour la liste et le labyrinthe
     free_lst_co(path);
-    free_tab(generated_tab);
+    free_tab(maze);
 
     return 0;
 }

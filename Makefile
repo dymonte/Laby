@@ -1,7 +1,7 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -g
-OBJ = main.o lst_co.o tab.o generation.o pathfinding.o
+OBJ = main.o lst_co.o tab.o generation.o pathfinding.o verif.o
 EXEC = maze
 
 .PHONY: all run clean valgrind
@@ -14,7 +14,7 @@ $(EXEC): $(OBJ)
 	$(CC) $(CFLAGS) -o $(EXEC) $(OBJ)
 
 # Compilation des fichiers .o à partir des fichiers .c
-main.o: main.c lst_co.h tab.h generation.h pathfinding.h
+main.o: main.c lst_co.h tab.h generation.h pathfinding.h verif.h
 	$(CC) $(CFLAGS) -c main.c
 
 lst_co.o: lst_co.c lst_co.h
@@ -22,6 +22,9 @@ lst_co.o: lst_co.c lst_co.h
 
 tab.o: tab.c tab.h
 	$(CC) $(CFLAGS) -c tab.c
+
+verif.o: verif.c tab.h
+	$(CC) $(CFLAGS) -c verif.c
 
 generation.o: generation.c generation.h tab.h
 	$(CC) $(CFLAGS) -c generation.c
