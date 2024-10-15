@@ -1,3 +1,10 @@
 a.out
 test.c
 .vscode/settings.json
+generation.o
+lst_co.o
+maze
+main.o
+pathfinding.o
+tab.o
+verif.o

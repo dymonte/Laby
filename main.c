@@ -7,6 +7,16 @@
 #include "pathfinding.h"
 #include "verif.h"
 
+/**
+ * @brief Initialise le depart du labyrinthe
+ *
+ * @param[in] tab le labyrinthe
+ * @return un pointeur vers une liste chainee representant le depart du labyrinthe
+ *
+ * Le depart est choisi aleatoirement dans le labyrinthe, mais jamais
+ * a la derniere ligne ou colonne pour eviter de casser la sortie.
+ * La case de depart est alors affectee comme type 'start'.
+ */
 Lst_co init_start(Tab tab)
 {
     int w = tab.width;
@@ -26,13 +36,15 @@ int main(int argc, char const *argv[])
     srand(time(0));
 
     // Crée et génère le labyrinthe avec les paramètres donnés
-    int largeur = 20;
-    int hauteur = 50;
+    int largeur = 100;
+    int hauteur = 1000;
 
     Tab maze = tab_start(largeur, hauteur);
 
     // Génère un labyrinthe de taille (largeur x hauteur)
-    generate(maze, 0, 1, 0);
+    generate(maze, 0, 1, 1);
+
+    // print_tab(maze);
 
     // Test de la validité du labyrinthe
     verif_exit(verif_tab(maze));
@@ -43,8 +55,11 @@ int main(int argc, char const *argv[])
     // Appel de l'algorithme de pathfinding à partir de la position de départ
     Lst_co path = pathfinding(&maze, co_start);
 
+    // Test de la validité du chemin
+    verif_exit(verif_path(path));
+
     // Affiche les coordonnées du chemin trouvé
-    show_co(path);
+    // show_co(path);
 
     // Trace le chemin trouvé dans le labyrinthe
     trace_path(maze, path);
