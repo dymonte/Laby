@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
 
     // Crée et génère le labyrinthe avec les paramètres donnés
     int largeur = 100;
-    int hauteur = 1000;
+    int hauteur = 100;
 
     Tab maze = tab_start(largeur, hauteur);
 
@@ -53,7 +53,7 @@ int main(int argc, char const *argv[])
     Lst_co co_start = init_start(maze);
 
     // Appel de l'algorithme de pathfinding à partir de la position de départ
-    Lst_co path = pathfinding(&maze, co_start);
+    Lst_co path = pathfinding_iteratif(&maze, co_start);
 
     // Test de la validité du chemin
     verif_exit(verif_path(path));
