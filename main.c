@@ -60,8 +60,9 @@ int main(int argc, char const *argv[])
     srand(time(NULL));
 
     // Create and generate the maze with given parameters
-    int width = 1000;
-    int height = 1000;
+    int width = 16;
+    int height = 16;
+    verif_exit(verif_size(width, height));
 
     printf("Maze size : %d x %d\n", width, height);
 
@@ -70,7 +71,7 @@ int main(int argc, char const *argv[])
     Tab maze = tab_start(width, height);
 
     // Generate a maze of size (width x height)
-    generate(maze, 0, 1, 1);
+    generate(maze, 0, 0, 0);
 
     // print_tab(maze);
 
@@ -78,7 +79,7 @@ int main(int argc, char const *argv[])
     verif_exit(verif_tab(maze));
 
     // Random starting position for pathfinding
-    Lst_co co_start = init_start(maze, 0);
+    Lst_co co_start = init_start(maze, 1);
 
     printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
@@ -105,7 +106,7 @@ int main(int argc, char const *argv[])
     trace_path(maze, path);
 
     // Display the maze with the traced path
-    // maze_show(maze);
+    maze_show(maze);
 
     // Free the allocated memory for the list and the maze
     free_lst_co(path);

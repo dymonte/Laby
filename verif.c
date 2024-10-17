@@ -62,6 +62,21 @@ int verif_path(Lst_co l)
 }
 
 /**
+ * @brief Checks if the given width and height are valid
+ *
+ * @param width the width of the maze
+ * @param height the height of the maze
+ *
+ * @return 1 if the width and height are valid, 0 otherwise
+ *
+ * A valid width and height are positive integers.
+ */
+int verif_size(int width, int height)
+{
+    return width > 0 && height > 0;
+}
+
+/**
  * @brief Exits the program with a status of 0 if the given boolean is false
  *
  * @param b the boolean value to check
