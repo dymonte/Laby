@@ -89,3 +89,23 @@ void show_co(Lst_co l)
         l = l->suiv;
     }
 }
+
+/**
+ * @brief Calculates the length of a list of coordinates
+ *
+ * @param[in] l the list of coordinates
+ *
+ * @return the length of the list
+ *
+ * The function iterates over the list and counts the number of elements.
+ */
+int len_co(Lst_co l)
+{
+    int i = 0;
+    while (l != NULL)
+    {
+        i++;
+        l = l->suiv;
+    }
+    return i;
+}

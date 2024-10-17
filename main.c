@@ -17,8 +17,17 @@
  * on the last row or column to avoid breaking the exit.
  * The start cell is then set as type 'start'.
  */
-Lst_co init_start(Tab tab)
+Lst_co init_start(Tab tab, int random_start)
 {
+    if (!random_start)
+    {
+        Lst_co l = new_lst_co(0, 0);
+
+        tab.cells[0][0].type = start;
+
+        return l;
+    }
+
     int w = tab.width;
     int random_y = rand() % (tab.height - 1);
     if (random_y == tab.height - 1) // eviter que l'entree ecrase la sortie
@@ -51,8 +60,10 @@ int main(int argc, char const *argv[])
     srand(time(NULL));
 
     // Create and generate the maze with given parameters
-    int width = 100;
-    int height = 100;
+    int width = 1000;
+    int height = 1000;
+
+    printf("Maze size : %d x %d\n", width, height);
 
     time_t t = time(&t);
 
@@ -67,7 +78,9 @@ int main(int argc, char const *argv[])
     verif_exit(verif_tab(maze));
 
     // Random starting position for pathfinding
-    Lst_co co_start = init_start(maze);
+    Lst_co co_start = init_start(maze, 0);
+
+    printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
     double diff_time = difftime(time(NULL), t);
     printf("Time to create the maze : %.2f secondes\n", diff_time);
@@ -83,6 +96,8 @@ int main(int argc, char const *argv[])
     // Test the validity of the path
     verif_exit(verif_path(path));
 
+    printf("Length of the path : %d\n", len_co(path));
+
     // Display the coordinates of the found path
     // show_co(path);
 
@@ -90,7 +105,7 @@ int main(int argc, char const *argv[])
     trace_path(maze, path);
 
     // Display the maze with the traced path
-    maze_show(maze);
+    // maze_show(maze);
 
     // Free the allocated memory for the list and the maze
     free_lst_co(path);

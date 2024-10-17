@@ -13,5 +13,6 @@ Lst_co supt_co(Lst_co l);
 void free_lst_co(Lst_co l);
 Lst_co adjt_co(Lst_co l, int x, int y);
 void show_co(Lst_co l);
+int len_co(Lst_co l);
 
 #endif
