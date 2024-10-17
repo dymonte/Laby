@@ -8,14 +8,14 @@
 #include "verif.h"
 
 /**
- * @brief Initialise le depart du labyrinthe
+ * @brief Initializes the start of the maze
  *
- * @param[in] tab le labyrinthe
- * @return un pointeur vers une liste chainee representant le depart du labyrinthe
+ * @param[in] tab the maze
+ * @return a pointer to a linked list representing the start of the maze
  *
- * Le depart est choisi aleatoirement dans le labyrinthe, mais jamais
- * a la derniere ligne ou colonne pour eviter de casser la sortie.
- * La case de depart est alors affectee comme type 'start'.
+ * The start is chosen randomly within the maze, but never
+ * on the last row or column to avoid breaking the exit.
+ * The start cell is then set as type 'start'.
  */
 Lst_co init_start(Tab tab)
 {
@@ -30,44 +30,69 @@ Lst_co init_start(Tab tab)
     return l;
 }
 
+/**
+ * @brief Entry point for the maze generation and pathfinding program
+ *
+ * This function initializes the random number generator and creates a maze.
+ * It generates the maze and verifies its validity.
+ * A random starting position is chosen for pathfinding, and the iterative pathfinding
+ * algorithm is executed to find a path through the maze. The validity of the
+ * path is verified, and the path is traced in the maze, which is then displayed.
+ * Finally, the allocated memory for the path and maze structures is freed.
+ *
+ * @param argc The number of command line arguments
+ * @param argv The array of command line arguments
+ *
+ * @return Returns 0 upon successful execution
+ */
 int main(int argc, char const *argv[])
 {
-    // Initialisation du générateur de nombres aléatoires
-    srand(time(0));
+    // Initialize the random number generator
+    srand(time(NULL));
 
-    // Crée et génère le labyrinthe avec les paramètres donnés
-    int largeur = 100;
-    int hauteur = 100;
+    // Create and generate the maze with given parameters
+    int width = 100;
+    int height = 100;
 
-    Tab maze = tab_start(largeur, hauteur);
+    time_t t = time(&t);
 
-    // Génère un labyrinthe de taille (largeur x hauteur)
+    Tab maze = tab_start(width, height);
+
+    // Generate a maze of size (width x height)
     generate(maze, 0, 1, 1);
 
     // print_tab(maze);
 
-    // Test de la validité du labyrinthe
+    // Test the validity of the maze
     verif_exit(verif_tab(maze));
 
-    // Position aléatoire de départ pour le pathfinding
+    // Random starting position for pathfinding
     Lst_co co_start = init_start(maze);
 
-    // Appel de l'algorithme de pathfinding à partir de la position de départ
+    double diff_time = difftime(time(NULL), t);
+    printf("Time to create the maze : %.2f secondes\n", diff_time);
+
+    time(&t);
+
+    // Call the pathfinding algorithm from the starting position
     Lst_co path = pathfinding_iteratif(&maze, co_start);
 
-    // Test de la validité du chemin
+    diff_time = difftime(time(NULL), t);
+    printf("Time to find the path : %.2f secondes\n", diff_time);
+
+    // Test the validity of the path
     verif_exit(verif_path(path));
 
-    // Affiche les coordonnées du chemin trouvé
+    // Display the coordinates of the found path
     // show_co(path);
 
-    // Trace le chemin trouvé dans le labyrinthe
+    // Trace the found path in the maze
     trace_path(maze, path);
 
-    // Affiche le labyrinthe avec le chemin tracé
+    // Display the maze with the traced path
     maze_show(maze);
 
-    // Libère la mémoire allouée pour la liste et le labyrinthe
+    // Free the allocated memory for the list and the maze
     free_lst_co(path);
     free_tab(maze);
 

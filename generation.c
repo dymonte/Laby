@@ -9,22 +9,22 @@
  * coordinates (width-1,height-1). The bottom-right cell is designated as the
  * end cell.
  *
- * @param l the number of columns in the tab
+ * @param w the number of columns in the tab
  * @param h the number of rows in the tab
  *
  * @return a Tab struct with the given width and height
  */
-Tab tab_start(int l, int h)
+Tab tab_start(int w, int h)
 {
-    Tab t = new_tab(l, h);
+    Tab t = new_tab(w, h);
 
     for (int i = t.start_y; i < h; i++)
     {
         t.cells[i][t.start_x].left = 0;
-        t.cells[i][t.start_x + l - 1].right = 0;
+        t.cells[i][t.start_x + w - 1].right = 0;
     }
 
-    for (int i = t.start_x; i < l; i++)
+    for (int i = t.start_x; i < w; i++)
     {
         t.cells[t.start_y][i].up = 0;
         t.cells[t.start_y + h - 1][i].down = 0;
