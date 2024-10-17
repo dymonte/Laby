@@ -29,10 +29,10 @@ Lst_co init_start(Tab tab, int random_start)
     }
 
     int w = tab.width;
-    int random_y = rand() % (tab.height - 1);
-    if (random_y == tab.height - 1) // eviter que l'entree ecrase la sortie
-        w -= 1;
-    int random_x = rand() % (w - 1);
+    int random_y = rand() % (tab.height - (w == 1 ? 1 : 0));
+    if (random_y == tab.height - 1 && w > 1) // eviter que l'entree ecrase la sortie, si la largeur est inferieure a 1, division par 0
+        w--;
+    int random_x = rand() % (w);
     Lst_co l = new_lst_co(random_x, random_y);
 
     tab.cells[random_y][random_x].type = start;
@@ -56,48 +56,57 @@ Lst_co init_start(Tab tab, int random_start)
  */
 int main(int argc, char const *argv[])
 {
+    int show_msg = 1; // to show messages
+
     // Initialize the random number generator
     srand(time(NULL));
 
     // Create and generate the maze with given parameters
-    int width = 16;
-    int height = 16;
-    verif_exit(verif_size(width, height));
+    int width = 100;
+    int height = 200;
 
-    printf("Maze size : %d x %d\n", width, height);
+    if (show_msg)
+        printf("Verif size (%d x %d) : ", width, height);
+    verif_exit(verif_size(width, height));
 
     time_t t = time(&t);
 
     Tab maze = tab_start(width, height);
 
     // Generate a maze of size (width x height)
-    generate(maze, 0, 0, 0);
+    generate(maze, 0, 1, 0);
 
     // print_tab(maze);
 
     // Test the validity of the maze
+    if (show_msg)
+        printf("Verif integrity of maze : ");
     verif_exit(verif_tab(maze));
 
     // Random starting position for pathfinding
     Lst_co co_start = init_start(maze, 1);
-
-    printf("Start : (%d, %d)\n", co_start->x, co_start->y);
+    if (show_msg)
+        printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
     double diff_time = difftime(time(NULL), t);
-    printf("Time to create the maze : %.2f secondes\n", diff_time);
-
+    if (show_msg)
+        printf("Time to create the maze : %.2f secondes\n", diff_time);
     time(&t);
 
     // Call the pathfinding algorithm from the starting position
     Lst_co path = pathfinding_iteratif(&maze, co_start);
 
     diff_time = difftime(time(NULL), t);
-    printf("Time to find the path : %.2f secondes\n", diff_time);
+    if (show_msg)
+        printf("Time to find the path : %.2f secondes\n", diff_time);
 
     // Test the validity of the path
+    if (show_msg)
+        printf("Verif integrity of path : ");
     verif_exit(verif_path(path));
 
-    printf("Length of the path : %d\n", len_co(path));
+    if (show_msg)
+        printf("Length of the path : %d\n", len_co(path));
 
     // Display the coordinates of the found path
     // show_co(path);

@@ -73,7 +73,7 @@ int verif_path(Lst_co l)
  */
 int verif_size(int width, int height)
 {
-    return width > 0 && height > 0;
+    return width > 0 && height > 0 && (width > 1 || height > 1);
 }
 
 /**
@@ -86,6 +86,7 @@ int verif_size(int width, int height)
  */
 void verif_exit(int b)
 {
+    printf("OK\n");
     if (b == 0)
         exit(EXIT_FAILURE);
 }
