@@ -49,6 +49,9 @@ Lst_co pathfinding_recursive(Tab *tab, Lst_co l)
  * If there is not, it removes the current cell from the list of coordinates.
  * The algorithm stops when it reaches the end of the maze.
  *
+ * The end of the maze is designated as the bottom-right cell so it try to visits
+ * the bottom and then the right before the up and left neighbor.
+ *
  * @param tab the Tab struct containing the maze
  * @param l the Lst_co struct containing the current position
  *
@@ -67,14 +70,15 @@ Lst_co pathfinding_iteratif(Tab *tab, Lst_co l)
         y = l->y;
         tab->cells[y][x].visited = 1;
 
-        if (tab->cells[y][x].up && !tab->cells[y - 1][x].visited)
-            l = adjt_co(l, x, y - 1);
-        else if (tab->cells[y][x].down && !tab->cells[y + 1][x].visited)
+        if (tab->cells[y][x].down && !tab->cells[y + 1][x].visited)
             l = adjt_co(l, x, y + 1);
-        else if (tab->cells[y][x].left && !tab->cells[y][x - 1].visited)
-            l = adjt_co(l, x - 1, y);
         else if (tab->cells[y][x].right && !tab->cells[y][x + 1].visited)
             l = adjt_co(l, x + 1, y);
+        else if (tab->cells[y][x].up && !tab->cells[y - 1][x].visited)
+            l = adjt_co(l, x, y - 1);
+        else if (tab->cells[y][x].left && !tab->cells[y][x - 1].visited)
+            l = adjt_co(l, x - 1, y);
+
         else
             l = supt_co(l);
     } while (tab->cells[y][x].type != end);
