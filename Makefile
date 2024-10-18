@@ -21,12 +21,7 @@ obj/%.o: src/%.c $(DEPS)
 clean:
 	rm -f $(EXEC)
 
-format:
-	@for file in $(SRC) $(DEPS); do \
-		clang-format -i $$file; \
-	done
-
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean format valgrind
+.PHONY: clean valgrind
