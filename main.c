@@ -80,11 +80,11 @@ int main(int argc, char const *argv[])
     time_t t = time(&t);
 
     Tab maze = tab_start(width, height);
-
+    test_supt_co();
     // Generate a maze of size (width x height)
     generate(maze, 0, 1, 0);
-
-    // print_tab(maze);
+    
+    //print_tab(maze);
 
     // Test the validity of the maze
     if (show_msg)
@@ -129,6 +129,6 @@ int main(int argc, char const *argv[])
     // Free the allocated memory for the list and the maze
     free_lst_co(path);
     free_tab(maze);
-
+    void test_supt_co();
     return 0;
 }

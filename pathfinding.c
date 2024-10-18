@@ -59,15 +59,17 @@ Lst_co pathfinding_recursive(Tab *tab, Lst_co l)
  */
 Lst_co pathfinding_iteratif(Tab *tab, Lst_co l)
 {
-    int x;
-    int y;
+    int x = l->x;
+    int y = l->y;
     int i = 0;
 
-    do
+    while (tab->cells[y][x].type != end)
     {
         i++;
+
         x = l->x;
         y = l->y;
+
         tab->cells[y][x].visited = 1;
 
         if (tab->cells[y][x].down && !tab->cells[y + 1][x].visited)
@@ -78,10 +80,11 @@ Lst_co pathfinding_iteratif(Tab *tab, Lst_co l)
             l = adjt_co(l, x, y - 1);
         else if (tab->cells[y][x].left && !tab->cells[y][x - 1].visited)
             l = adjt_co(l, x - 1, y);
-
         else
             l = supt_co(l);
-    } while (tab->cells[y][x].type != end);
+        x = l->x;
+        y = l->y;
+    };
 
     printf("Number of iterations : %d\n", i);
 

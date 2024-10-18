@@ -13,7 +13,7 @@ typedef struct cell
 {
     unsigned int up : 1, down : 1, left : 1, right : 1;
     type_cell type;
-    int visited : 1;
+    int visited ;
 } Cell;
 
 typedef struct tab

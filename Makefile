@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -g
 OBJ = main.o lst_co.o tab.o generation.o pathfinding.o verif.o
 EXEC = maze
-ARGS = 100 100 1 1 1# largeur, hauteur, random_start, show_verif, display
+ARGS = 4 5 1 1 1# largeur, hauteur, random_start, show_verif, display
 
 .PHONY: all run clean valgrind
 

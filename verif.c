@@ -94,3 +94,37 @@ void verif_exit(int b, int show_msg)
         exit(EXIT_FAILURE);
     }
 }
+
+
+
+/**
+ * @brief Tests the supt_co function by verifying list structure after deletion.
+ *
+ * This function creates a linked list with three elements, removes the first
+ * element using supt_co, and checks if the resulting list's new head is correct.
+ * If the test passes, the result will be printed as a success. If the test
+ * fails, the program will exit with a failure status. It is used to ensure
+ * that supt_co behaves correctly when removing elements from the list.
+ */
+
+
+void test_supt_co() {
+    //printf("d");
+    Lst_co l1 = new_lst_co(1, 1);
+    Lst_co l2 = adjt_co(l1, 2, 2);
+    Lst_co l3 = adjt_co(l2, 3, 3);
+
+    Lst_co new_head = supt_co(l3);  
+    int passed = (new_head->x == l2->x && new_head->x == 2 && new_head->y == 2);
+
+
+    free_lst_co(new_head);
+
+    if(passed){
+        printf(" test_supt_co OK");
+    }
+    else{
+        fprintf(stderr, " test_supt_co KO\n");
+        exit(EXIT_FAILURE);
+    }
+}
