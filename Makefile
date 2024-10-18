@@ -7,6 +7,11 @@ OBJ = $(SRC:./%.c=./%.o)
 DEPS = $(wildcard ./*.h)
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
+all : $(EXEC) run clean
+
+run : $(EXEC)
+	./$(EXEC)
+
 
 #Compile le programme en fonction de EXEC, OBJETS, CC, LDFLAGS
 $(EXEC): $(OBJ)

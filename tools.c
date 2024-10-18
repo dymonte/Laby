@@ -11,8 +11,10 @@
  * on the last row or column to avoid breaking the exit.
  * The start cell is then set as type 'start'.
  */
-Lst_co init_start(Tab tab, int random_start) {
-  if (!random_start) {
+Lst_co init_start(Tab tab, int random_start)
+{
+  if (!random_start)
+  {
     Lst_co l = new_lst_co(0, 0);
 
     tab.cells[0][0].type = start;
