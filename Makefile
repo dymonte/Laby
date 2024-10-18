@@ -1,44 +1,27 @@
-# Variables
+#Les variables
 CC = gcc
-CFLAGS = -Wall -g
-OBJ = main.o lst_co.o tab.o generation.o pathfinding.o verif.o
-EXEC = maze
-ARGS = 4 5 1 1 1# largeur, hauteur, random_start, show_verif, display
+CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror
+EXEC = maze 
+SRC = $(wildcard ./*.c)
+OBJ = $(SRC:./%.c=./%.o)
+DEPS = $(wildcard ./*.h)
+VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
-.PHONY: all run clean valgrind
 
-# Règle par défaut pour compiler l'exécutable
-all: $(EXEC) run clean
-
-# Règle pour créer l'exécutable en reliant les fichiers objets
+#Compile le programme en fonction de EXEC, OBJETS, CC, LDFLAGS
 $(EXEC): $(OBJ)
-	$(CC) $(CFLAGS) -o $(EXEC) $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Compilation des fichiers .o à partir des fichiers .c
-main.o: main.c lst_co.h tab.h generation.h pathfinding.h verif.h
-	$(CC) $(CFLAGS) -c main.c
+#Génère les fichiers .o dans un répertoire "temporaire" obj qui est créer juste avant la création des fichiers .o
+obj/%.o: src/%.c $(DEPS)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-lst_co.o: lst_co.c lst_co.h
-	$(CC) $(CFLAGS) -c lst_co.c
 
-tab.o: tab.c tab.h
-	$(CC) $(CFLAGS) -c tab.c
-
-verif.o: verif.c tab.h
-	$(CC) $(CFLAGS) -c verif.c
-
-generation.o: generation.c generation.h tab.h
-	$(CC) $(CFLAGS) -c generation.c
-
-pathfinding.o: pathfinding.c pathfinding.h tab.h lst_co.h
-	$(CC) $(CFLAGS) -c pathfinding.c
-
-run: $(EXEC)
-	./$(EXEC) $(ARGS)
-# Nettoyage des fichiers objets et de l'exécutable
+#Supprimer les dossiers obj, doc et supprimer main.exe
 clean:
-	rm -f *.o $(EXEC)
+	rm -f $(EXEC)
 
-valgrind: $(EXEC)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(EXEC) $(ARGS)
+valgrind: 
+	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
+.PHONY: clean valgrind
