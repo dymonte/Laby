@@ -7,6 +7,6 @@
 int verif_tab(Tab tab);
 int verif_path(Lst_co l);
 int verif_size(int width, int height);
-void verif_exit(int b);
+void verif_exit(int b, int show_msg);
 
 #endif

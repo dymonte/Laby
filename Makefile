@@ -3,6 +3,7 @@ CC = gcc
 CFLAGS = -Wall -g
 OBJ = main.o lst_co.o tab.o generation.o pathfinding.o verif.o
 EXEC = maze
+ARGS = 100 100 1 1 1# largeur, hauteur, random_start, show_verif, display
 
 .PHONY: all run clean valgrind
 
@@ -33,11 +34,11 @@ pathfinding.o: pathfinding.c pathfinding.h tab.h lst_co.h
 	$(CC) $(CFLAGS) -c pathfinding.c
 
 run: $(EXEC)
-	./$(EXEC)
+	./$(EXEC) $(ARGS)
 # Nettoyage des fichiers objets et de l'exécutable
 clean:
 	rm -f *.o $(EXEC)
 
 valgrind: $(EXEC)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(EXEC)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(EXEC) $(ARGS)
 

@@ -84,9 +84,13 @@ int verif_size(int width, int height)
  * This function can be used to verify if a condition is true and exit the
  * program if it is false.
  */
-void verif_exit(int b)
+void verif_exit(int b, int show_msg)
 {
-    printf("OK\n");
+    if (show_msg)
+        printf("OK\n");
     if (b == 0)
+    {
+        fprintf(stderr, "KO\n");
         exit(EXIT_FAILURE);
+    }
 }

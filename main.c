@@ -56,18 +56,26 @@ Lst_co init_start(Tab tab, int random_start)
  */
 int main(int argc, char const *argv[])
 {
-    int show_msg = 1; // to show messages
+    if (argc != 6)
+    {
+        fprintf(stderr, "Usage: %s <width> <height> <random_start> <show_verif> <display>\n", argv[0]);
+        return 1;
+    }
+
+    int show_msg = atoi(argv[4]); // to show messages
+
+    int display = atoi(argv[5]); // to display the maze
 
     // Initialize the random number generator
     srand(time(NULL));
 
     // Create and generate the maze with given parameters
-    int width = 100;
-    int height = 200;
+    int width = atoi(argv[1]);
+    int height = atoi(argv[2]);
 
     if (show_msg)
         printf("Verif size (%d x %d) : ", width, height);
-    verif_exit(verif_size(width, height));
+    verif_exit(verif_size(width, height), show_msg);
 
     time_t t = time(&t);
 
@@ -81,10 +89,10 @@ int main(int argc, char const *argv[])
     // Test the validity of the maze
     if (show_msg)
         printf("Verif integrity of maze : ");
-    verif_exit(verif_tab(maze));
+    verif_exit(verif_tab(maze), show_msg);
 
     // Random starting position for pathfinding
-    Lst_co co_start = init_start(maze, 1);
+    Lst_co co_start = init_start(maze, atoi(argv[3]));
     if (show_msg)
         printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
@@ -103,7 +111,7 @@ int main(int argc, char const *argv[])
     // Test the validity of the path
     if (show_msg)
         printf("Verif integrity of path : ");
-    verif_exit(verif_path(path));
+    verif_exit(verif_path(path), show_msg);
 
     if (show_msg)
         printf("Length of the path : %d\n", len_co(path));
@@ -115,7 +123,8 @@ int main(int argc, char const *argv[])
     trace_path(maze, path);
 
     // Display the maze with the traced path
-    maze_show(maze);
+    if (display)
+        maze_show(maze);
 
     // Free the allocated memory for the list and the maze
     free_lst_co(path);
