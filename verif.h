@@ -11,7 +11,8 @@ int verif_tab(Tab tab);
 int verif_path(Lst_co l);
 int verif_size(int width, int height);
 void verif_exit(int b, int show_msg);
-int verif_lst_length(Lst_co l, int expected_length);
-void test_supt_co();
+int test_smallmaze();
+int test_bigmaze();
+int test_maze(int width, int height, int show_msg, int display);
 
 #endif

@@ -96,93 +96,20 @@ void verif_exit(int b, int show_msg)
   }
 }
 
-int test_verysmall()
+int test_smallmaze()
 {
-  // Initialize the random number generator
-  int show_msg = 1; // to show messages
-
-  int display = 1; // to display the maze
-
-  // Initialize the random number generator
-  srand(time(NULL));
-
-  // Create and generate the maze with given parameters
-  int width = 2;
-  int height = 2;
-
-  if (show_msg)
-    printf("Verif size (%d x %d) : ", width, height);
-  verif_exit(verif_size(width, height), show_msg);
-
-  time_t t = time(&t);
-
-  Tab maze = tab_start(width, height);
-
-  // Generate a maze of size (width x height)
-  generate(maze, 0, 1, 0);
-
-  // print_tab(maze);
-
-  // Test the validity of the maze
-  if (show_msg)
-    printf("Verif integrity of maze : ");
-  verif_exit(verif_tab(maze), show_msg);
-
-  // Random starting position for pathfinding
-  Lst_co co_start = init_start(maze, 1);
-  if (show_msg)
-    printf("Start : (%d, %d)\n", co_start->x, co_start->y);
-
-  double diff_time = difftime(time(NULL), t);
-  if (show_msg)
-    printf("Time to create the maze : %.2f secondes\n", diff_time);
-  time(&t);
-
-  // Call the pathfinding algorithm from the starting position
-  Lst_co p = pathfinding_iteratif(&maze, co_start);
-
-  diff_time = difftime(time(NULL), t);
-  if (show_msg)
-    printf("Time to find the path : %.2f secondes\n", diff_time);
-
-  // Test the validity of the path
-  if (show_msg)
-    printf("Verif integrity of path : ");
-  verif_exit(verif_path(p), show_msg);
-
-  if (show_msg)
-    printf("Length of the path : %d\n", len_co(p));
-
-  // Display the coordinates of the found path
-  // show_co(path);
-
-  // Trace the found path in the maze
-  trace_path(maze, p);
-
-  // Display the maze with the traced path
-  if (display)
-    maze_show(maze);
-
-  // Free the allocated memory for the list and the maze
-  free_lst_co(p);
-  free_tab(maze);
-
-  return 0;
+  return test_maze(2, 2, 1, 1);
 }
 
 int test_bigmaze()
 {
-  // Initialize the random number generator
-  int show_msg = 1; // to show messages
+  return test_maze(1000, 1000, 1, 0);
+}
 
-  int display = 1; // to display the maze
-
+int test_maze(int width, int height, int show_msg, int display)
+{
   // Initialize the random number generator
   srand(time(NULL));
-
-  // Create and generate the maze with given parameters
-  int width = 1000;
-  int height = 1000;
 
   if (show_msg)
     printf("Verif size (%d x %d) : ", width, height);
