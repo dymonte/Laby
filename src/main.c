@@ -6,10 +6,10 @@
  * @brief The main function of the program
  *
  * This function takes up to 4 arguments:
- * - width: the width of the maze
- * - height: the height of the maze
- * - show_msg: a boolean indicating if the program should print messages
- * - display: a boolean indicating if the program should display the maze
+ * - `width`: the width of the maze
+ * - `height`: the height of the maze
+ * - `show_msg`: a boolean indicating if the program should print messages
+ * - `display`: a boolean indicating if the program should display the maze
  *
  * If no arguments are given, the program runs two tests: one for a big maze,
  * and one for a small maze. If 4 arguments are given, the program runs one
