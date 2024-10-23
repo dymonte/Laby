@@ -1,32 +1,39 @@
 #Les variables
 CC = gcc
-CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror
+CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps
 EXEC = maze 
-SRC = $(wildcard ./*.c)
-OBJ = $(SRC:./%.c=./%.o)
-DEPS = $(wildcard ./*.h)
+SRC = $(wildcard ./src/*.c)
+OBJ = $(SRC:./src/%.c=./obj/%.o)
+DEPS = $(wildcard ./deps/*.h)
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
+#Complie, run and clean
 all : $(EXEC) run clean
 
+#Run the program
 run : $(EXEC)
 	./$(EXEC)
 
 
-#Compile le programme en fonction de EXEC, OBJETS, CC, LDFLAGS
+#Compile the program according to EXEC, OBJETS, CC, LDFLAGS
 $(EXEC): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
-#Génère les fichiers .o dans un répertoire "temporaire" obj qui est créer juste avant la création des fichiers .o
-obj/%.o: src/%.c $(DEPS)
+#Generate the .o files in a temporary directory "obj" which is created just before the files .o creation
+obj/%.o:  src/%.c obj $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+#Create the temporary directory "obj"
+obj:
+	mkdir obj
 
-#Supprimer les dossiers obj, doc et supprimer main.exe
+#Clean everything
 clean:
 	rm -f $(EXEC)
+	rm -fr obj
 
+#Run valgrind
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind
+.PHONY: clean valgrind run all 

@@ -3,6 +3,7 @@ image: gcc
 stages:
   - build
   - test
+  - clean
 
 variables:
   MAKE: make
@@ -11,11 +12,18 @@ build:
   stage: build
   script:
     - ${MAKE} maze
+  artifacts:
+    paths:
+      - obj
+      - ./maze
+    when: on_success
 
 test:
   stage: test
   script:
     - ${MAKE} run
-  # artifacts:
-  #   file:
-  #     - maze
+
+clean:
+  stage: clean
+  script:
+    - ${MAKE} clean
