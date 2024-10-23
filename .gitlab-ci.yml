@@ -16,6 +16,6 @@ test:
   stage: test
   script:
     - ${MAKE} run
-  artifacts:
-    files:
-      - maze
+  # artifacts:
+  #   file:
+  #     - maze
