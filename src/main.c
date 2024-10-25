@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
   else if (argc == 1)
   {
     test_bigmaze();
-    printf("--------\n");
+    printf(" \n-----------------------\n\n");
     test_smallmaze();
   }
   else
