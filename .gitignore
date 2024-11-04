@@ -2,3 +2,5 @@ test.c
 .vscode/
 obj/
 maze
+html/
+latex/
