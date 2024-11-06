@@ -3,6 +3,7 @@ image: gcc
 stages:
   - build
   - test
+  - doc
   - clean
 
 variables:
@@ -17,6 +18,15 @@ build:
       - obj
       - ./maze
     when: on_success
+
+doc:
+  stage: doc
+  script:
+    - ${MAKE} doc
+  artifacts:
+    paths:
+      - doc
+      - ./refman.pdf
 
 test:
   stage: test

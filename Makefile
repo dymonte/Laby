@@ -5,6 +5,11 @@ EXEC = maze
 SRC = $(wildcard ./src/*.c)
 OBJ = $(SRC:./src/%.c=./obj/%.o)
 DEPS = $(wildcard ./deps/*.h)
+
+
+DOC_DIR = doc/
+OBJ_DIR = obj/
+DOXYGEN = doxygen
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
 #Complie, run and clean
@@ -27,13 +32,23 @@ obj/%.o:  src/%.c obj $(DEPS)
 obj:
 	mkdir obj
 
+doc: $(DOC_DIR)
+	$(DOXYGEN) ./Doxyfile
+	cd $(DOC_DIR)/latex && make pdf
+	cp -fr $(DOC_DIR)/latex/refman.pdf ./
+
+
+$(DOC_DIR):
+	mkdir $(DOC_DIR)
+
 #Clean everything
-clean:
+clean: doc/ doc/latex
 	rm -f $(EXEC)
-	rm -fr obj
+	rm -fr $(OBJ_DIR)
+	rm -fr $(DOC_DIR)
 
 #Run valgrind
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind run all 
+.PHONY: clean valgrind run all doc
