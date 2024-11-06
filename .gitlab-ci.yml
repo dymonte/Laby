@@ -8,6 +8,7 @@ stages:
 
 variables:
   MAKE: make
+  DOXYGEN_IMAGE: "doxygen/doxygen:latest"
 
 build:
   stage: build
@@ -22,11 +23,12 @@ build:
 doc:
   stage: doc
   script:
-    - ${MAKE} doc
+    - docker run -v $(pwd):/app $DOXYGEN_IMAGE doxygen Doxyfile
+    - ${MAKE} pdf
   artifacts:
     paths:
-      - doc
-      - ./refman.pdf
+      - doc/latex/refman.pdf
+    when: on_success
 
 test:
   stage: test
