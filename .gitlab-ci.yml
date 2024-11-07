@@ -21,7 +21,7 @@ build:
 test:
   stage: test
   script:
-    - ${MAKE} run
+    - ${MAKE} test
 
 clean:
   stage: clean

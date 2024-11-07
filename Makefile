@@ -15,11 +15,6 @@ VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes
 #Complie, run and clean
 all : $(EXEC) run clean
 
-#Run the program
-run : $(EXEC)
-	./$(EXEC)
-
-
 #Compile the program according to EXEC, OBJETS, CC, LDFLAGS
 $(EXEC): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
