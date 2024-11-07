@@ -18,10 +18,11 @@
  *
  * @param tab the Tab struct containing the maze
  * @param l the Lst_co struct containing the current position
+ * @param show_msg whether to display messages
 
  * @return the list of coordinates representing the shortest path to the exit
  */
-Lst_co pathfinding_iteratif(Tab *tab, Lst_co l);
+Lst_co pathfinding_iteratif(Tab *tab, Lst_co l, int show_msg);
 
 /**
  * !DEPRECATED : use pathfinding_iteratif instead to avoid segmentation fault

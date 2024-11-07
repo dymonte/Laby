@@ -24,7 +24,7 @@ Lst_co pathfinding_recursive(Tab *tab, Lst_co l)
 	return pathfinding_recursive(tab, l);
 }
 
-Lst_co pathfinding_iteratif(Tab *tab, Lst_co l)
+Lst_co pathfinding_iteratif(Tab *tab, Lst_co l, int show_msg)
 {
 	int x = l->x;
 	int y = l->y;
@@ -53,7 +53,8 @@ Lst_co pathfinding_iteratif(Tab *tab, Lst_co l)
 		y = l->y;
 	};
 
-	printf("Number of iterations : %d\n", i);
+	if (show_msg)
+		printf("Number of iterations : %d\n", i);
 
 	return l;
 }
