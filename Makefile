@@ -37,12 +37,14 @@ doc: $(DOC_DIR)
 	cd $(DOC_DIR)/latex && make pdf
 	cp -fr $(DOC_DIR)/latex/refman.pdf ./
 
+test: $(EXEC)
+	bash ./test.sh
 
 $(DOC_DIR):
 	mkdir $(DOC_DIR)
 
 #Clean everything
-clean: doc/ doc/latex
+clean:
 	rm -f $(EXEC)
 	rm -fr $(OBJ_DIR)
 	rm -fr $(DOC_DIR)
@@ -51,4 +53,4 @@ clean: doc/ doc/latex
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind run all doc
+.PHONY: clean valgrind run all
