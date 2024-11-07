@@ -1,4 +1,4 @@
-values=(2 1000) #30000)
+values=(2 1000 30000)
 for width in "${values[@]}"; do
     for height in "${values[@]}"; do
         printf "\n+----------------------------------------------------------------+\n"

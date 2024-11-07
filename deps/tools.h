@@ -3,6 +3,7 @@
 
 #include "lst_co.h"
 #include "tab.h"
+#include <stdio.h>
 
 /**
  * @brief Initializes the start of the maze

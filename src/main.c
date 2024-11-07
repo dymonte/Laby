@@ -29,5 +29,7 @@ int main(int argc, char *argv[])
   int show_msg = atoi(argv[3]);
   int display = atoi(argv[4]);
 
+  test_maze(width, height, show_msg, display);
+
   return EXIT_SUCCESS;
 }
