@@ -34,6 +34,22 @@
 int verif_tab(Tab tab);
 
 /**
+ * @brief Checks if the path represented by the list of coordinates is valid
+ *
+ * The function checks two things to validate the path:
+ * - That the path is continuous (i.e. two adjacent cells in the path are
+ *   adjacent in the maze)
+ * - That the path starts at the start of the maze and ends at the end of
+ *   the maze
+ *
+ * @param tab the Tab struct containing the maze
+ * @param l the list of coordinates representing the path
+ *
+ * @return 1 if the path is valid, 0 otherwise
+ */
+int verif_path(Tab tab, Lst_co l);
+
+/**
  * @brief Verifies if the path represented by the list of coordinates is valid
  *
  * The function checks if the path is valid by iterating over each element of
@@ -71,24 +87,6 @@ int verif_path_start_end(Lst_co l, Tab tab);
  * A valid width and height are positive integers.
  */
 int verif_size(int width, int height);
-
-/**
- * @brief Runs a test on a small maze
- *
- * This function tests the generation and pathfinding of a small maze
- * with dimensions 2x2. It displays the maze and prints messages
- * indicating the success or failure of the operations.
- */
-void test_smallmaze();
-
-/**
- * @brief Runs a test on a large maze
- *
- * This function tests the generation and pathfinding of a large maze
- * with dimensions 1000x1000. It does not display the maze, but it
- * prints messages indicating the success or failure of the operations.
- */
-void test_bigmaze();
 
 /**
  * @brief Test the generation of a maze and the pathfinding algorithm

@@ -18,20 +18,16 @@
  */
 int main(int argc, char *argv[])
 {
-  if (argc == 5)
-  {
-    test_maze(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
-  }
-  else if (argc == 1)
-  {
-    test_bigmaze();
-    printf(" \n-----------------------\n\n");
-    test_smallmaze();
-  }
-  else
+  if (argc != 5) // nb of arguments incorrect
   {
     fprintf(stderr, "Usage : ./main <width> <height> <show_msg> <display>\n");
+    return EXIT_FAILURE;
   }
+
+  int width = atoi(argv[1]);
+  int height = atoi(argv[2]);
+  int show_msg = atoi(argv[3]);
+  int display = atoi(argv[4]);
 
   return EXIT_SUCCESS;
 }

@@ -26,6 +26,14 @@ int verif_tab(Tab tab)
   return 1;
 }
 
+int verif_path(Tab tab, Lst_co l)
+{
+  if (verif_path_continuity(l) && verif_path_start_end(l, tab))
+    return 1;
+  else
+    return 0;
+}
+
 int verif_path_continuity(Lst_co l)
 {
   if (l == NULL)
@@ -45,10 +53,11 @@ int verif_path_start_end(Lst_co l, Tab tab)
 {
   Lst_co st = l;
 
-  while (l->suiv != NULL)
+  while (st->suiv != NULL)
   {
-    l = l->suiv;
+    st = st->suiv;
   }
+
   return tab.cells[l->y][l->x].type == end && tab.cells[st->y][st->x].type == start;
 }
 
@@ -57,24 +66,14 @@ int verif_size(int width, int height)
   return width > 0 && height > 0 && (width > 1 || height > 1);
 }
 
-void test_smallmaze()
-{
-  test_maze(2, 2, 1, 1);
-}
-
-void test_bigmaze()
-{
-  test_maze(1000, 1000, 1, 0);
-}
-
 void test_maze(int width, int height, int show_msg, int display)
 {
   // Initialize the random number generator
 
-  if (show_msg)
-    printf("-- Start --\n\n");
-
   srand(time(NULL));
+
+  if (show_msg)
+    print_title("Start");
 
   if (show_msg)
     printf("Verif size (%d x %d) : ", width, height);
@@ -83,7 +82,7 @@ void test_maze(int width, int height, int show_msg, int display)
   time_t t = time(&t);
 
   if (show_msg)
-    printf("\n-- Generating maze --\n\n");
+    print_title("Generation of maze");
   Tab maze = tab_start(width, height);
 
   // Generate a maze of size (width x height)
@@ -106,10 +105,11 @@ void test_maze(int width, int height, int show_msg, int display)
     printf("Time to create the maze : %.2f secondes\n", diff_time);
   time(&t);
 
-  printf("\n-- Path finding--\n\n");
+  if (show_msg)
+    print_title("Pathfinding");
 
   // Call the pathfinding algorithm from the starting position
-  Lst_co p = pathfinding_iteratif(&maze, co_start);
+  Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
 
   diff_time = difftime(time(NULL), t);
   if (show_msg)
@@ -118,7 +118,8 @@ void test_maze(int width, int height, int show_msg, int display)
   // Test the validity of the path
   if (show_msg)
     printf("Verif integrity of path : ");
-  V(verif_path_continuity(p), show_msg);
+
+  V(verif_path(maze, p), show_msg);
 
   if (show_msg)
     printf("Length of the path : %d\n", len_co(p));
@@ -132,7 +133,7 @@ void test_maze(int width, int height, int show_msg, int display)
   // Display the maze with the traced path
   if (display)
   {
-    printf("\n-- Display --\n\n");
+    print_title("Display");
 
     maze_show(maze);
   }

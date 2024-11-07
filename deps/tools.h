@@ -16,4 +16,14 @@
  */
 Lst_co init_start(Tab tab, int random_start);
 
+/**
+ * @brief Prints a formatted title
+ *
+ * This function takes a string as input and prints it as a title
+ * enclosed with dashes on either side, followed by two new lines.
+ *
+ * @param title the string to be printed as a title
+ */
+void print_title(char *title);
+
 #endif
