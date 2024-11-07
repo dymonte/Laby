@@ -3,10 +3,12 @@ image: gcc
 stages:
   - build
   - test
+  - doc
   - clean
 
 variables:
   MAKE: make
+  DOXYGEN_IMAGE: "doxygen/doxygen:latest"
 
 build:
   stage: build
@@ -16,6 +18,16 @@ build:
     paths:
       - obj
       - ./maze
+    when: on_success
+
+doc:
+  stage: doc
+  script:
+    - docker run -v $(pwd):/app $DOXYGEN_IMAGE doxygen Doxyfile
+    - ${MAKE} pdf
+  artifacts:
+    paths:
+      - doc/latex/refman.pdf
     when: on_success
 
 test:
