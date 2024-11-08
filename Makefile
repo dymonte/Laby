@@ -1,6 +1,6 @@
 #Les variables
 CC = gcc
-CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps
+CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps -g3
 EXEC = maze 
 SRC = $(wildcard ./src/*.c)
 OBJ = $(SRC:./src/%.c=./obj/%.o)
