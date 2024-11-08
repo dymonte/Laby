@@ -99,8 +99,8 @@ void test_maze(int width, int height, int show_msg, int display) {
     print_title("Pathfinding");
 
   // Call the pathfinding algorithm from the starting position
-  Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
-  (void)show_co(p);
+  // Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
+  Lst_co p = a_star_finding(&maze);
 
   diff_time = difftime(time(NULL), t);
   if (show_msg)

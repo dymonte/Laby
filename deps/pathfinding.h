@@ -3,8 +3,6 @@
 
 #include "lst_co.h"
 #include "tab.h"
-#include <cmath>
-#include <system_error>
 
 typedef struct cost {
   int gCost;
@@ -73,4 +71,5 @@ Lst_co pathfinding_recursive(Tab *tab, Lst_co l);
  */
 void trace_path(Tab tab, Lst_co l);
 
+Lst_co a_star_finding(Tab *tab);
 #endif
