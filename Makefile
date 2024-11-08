@@ -1,5 +1,5 @@
 #Les variables
-CC = cc
+CC = gcc
 CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps
 EXEC = maze 
 SRC = $(wildcard ./src/*.c)
