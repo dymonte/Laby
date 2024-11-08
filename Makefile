@@ -1,5 +1,5 @@
 #Les variables
-CC = gcc
+CC = cc
 CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps
 EXEC = maze 
 SRC = $(wildcard ./src/*.c)
@@ -13,7 +13,7 @@ DOXYGEN = doxygen
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
 #Complie, run and clean
-all : $(EXEC) run clean
+all : $(EXEC) test clean
 
 #Compile the program according to EXEC, OBJETS, CC, LDFLAGS
 $(EXEC): $(OBJ)
@@ -49,4 +49,4 @@ clean:
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind run all doc
+.PHONY: clean valgrind all doc
