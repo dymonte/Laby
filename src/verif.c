@@ -133,27 +133,28 @@ void test_maze(int width, int height, int show_msg, int display) {
   free_tab(maze);
 }
 
-int verif_gaps(Tab *tab, Lst_co path) {
-    Lst_co current = path;
+int verif_gaps(Tab *tab, Lst_co p) {
+  Lst_co current = p;
 
-    while (current != NULL && current->suiv != NULL) {
-        int x = current->x;
-        int y = current->y;
-        int next_x = current->suiv->x;
-        int next_y = current->suiv->y;
+  while (current != NULL && current->suiv != NULL) {
+    int x = current->x;
+    int y = current->y;
+    int next_x = current->suiv->x;
+    int next_y = current->suiv->y;
 
-        // Check if the next cell in the path is a valid neighbor
-        if (next_y == y + 1 && tab->cells[y][x].down) {
-        } else if (next_y == y - 1 && tab->cells[y][x].up) {
-        } else if (next_x == x + 1 && tab->cells[y][x].right) {
-        } else if (next_x == x - 1 && tab->cells[y][x].left) {
-        } else {
-            // If none of the valid side match, there's a gap
-            printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x, next_y);
-            return 0; // Path has a gap
-        }
-        current = current->suiv;
+    // Check if the next cell in the path is a valid neighbor
+    if (next_y == y + 1 && tab->cells[y][x].down) {
+    } else if (next_y == y - 1 && tab->cells[y][x].up) {
+    } else if (next_x == x + 1 && tab->cells[y][x].right) {
+    } else if (next_x == x - 1 && tab->cells[y][x].left) {
+    } else {
+      // If none of the valid side match, there's a gap
+      printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x,
+             next_y);
+      return 0; // Path has a gap
     }
+    current = current->suiv;
+  }
 
-    return 1; // Path is continuous if no gaps were found
+  return 1; // Path is continuous if no gaps were found
 }
