@@ -78,22 +78,21 @@ void test_maze(int width, int height, int show_msg, int display) {
   // Generate a maze of size (width x height)
   generate(maze, 0, 1, 0);
 
-  // print_tab(maze);
-
   // Random starting position for pathfinding
   Lst_co co_start = init_start(maze, 1);
   if (show_msg)
     printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
-  // Test the validity of the maze
-  if (show_msg)
-    printf("Verif integrity of maze : ");
-  V(verif_tab(maze), show_msg);
-
+  // Measure the time taken to generate the maze
   double diff_time = difftime(time(NULL), t);
   if (show_msg)
     printf("Time to create the maze : %.2f secondes\n", diff_time);
   time(&t);
+
+  // Test the validity of the maze
+  if (show_msg)
+    printf("Verif integrity of maze : ");
+  V(verif_tab(maze), show_msg);
 
   if (show_msg)
     print_title("Pathfinding");
@@ -102,6 +101,7 @@ void test_maze(int width, int height, int show_msg, int display) {
   // Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
   Lst_co p = a_star_finding(&maze);
 
+  // Measure the time taken to find the path
   diff_time = difftime(time(NULL), t);
   if (show_msg)
     printf("Time to find the path : %.2f secondes\n", diff_time);
@@ -131,4 +131,29 @@ void test_maze(int width, int height, int show_msg, int display) {
   // Free the allocated memory for the list and the maze
   free_lst_co(p);
   free_tab(maze);
+}
+
+int verif_gaps(Tab *tab, Lst_co path) {
+    Lst_co current = path;
+
+    while (current != NULL && current->suiv != NULL) {
+        int x = current->x;
+        int y = current->y;
+        int next_x = current->suiv->x;
+        int next_y = current->suiv->y;
+
+        // Check if the next cell in the path is a valid neighbor
+        if (next_y == y + 1 && tab->cells[y][x].down) {
+        } else if (next_y == y - 1 && tab->cells[y][x].up) {
+        } else if (next_x == x + 1 && tab->cells[y][x].right) {
+        } else if (next_x == x - 1 && tab->cells[y][x].left) {
+        } else {
+            // If none of the valid side match, there's a gap
+            printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x, next_y);
+            return 0; // Path has a gap
+        }
+        current = current->suiv;
+    }
+
+    return 1; // Path is continuous if no gaps were found
 }

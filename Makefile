@@ -13,7 +13,7 @@ DOXYGEN = doxygen
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
 #Complie, run and clean
-all : $(EXEC) run clean
+all : $(EXEC) test clean
 
 #Compile the program according to EXEC, OBJETS, CC, LDFLAGS
 $(EXEC): $(OBJ)
@@ -27,6 +27,7 @@ obj/%.o:  src/%.c obj $(DEPS)
 obj:
 	mkdir obj
 
+# Generate the documentation
 doc: $(DOC_DIR)
 	$(DOXYGEN) ./Doxyfile
 	cd $(DOC_DIR)/latex && make pdf
@@ -48,4 +49,4 @@ clean:
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind run all
+.PHONY: clean valgrind all doc

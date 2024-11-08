@@ -1,9 +1,11 @@
 #include "../deps/tools.h"
 #include <stdlib.h>
 
-Lst_co init_start(Tab tab, int random_start) {
+Lst_co init_start(Tab tab, int random_start)
+{
   Pos s;
-  if (!random_start) {
+  if (!random_start)
+  {
     Lst_co l = new_lst_co(0, 0);
 
     tab.cells[0][0].type = start;
@@ -30,4 +32,7 @@ Lst_co init_start(Tab tab, int random_start) {
   return l;
 }
 
-void print_title(char *title) { printf("-- %s --\n\n", title); }
+void print_title(char *title)
+{
+  printf("\n-- %s --\n", title);
+}
