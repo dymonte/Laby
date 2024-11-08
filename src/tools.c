@@ -25,5 +25,5 @@ Lst_co init_start(Tab tab, int random_start)
 
 void print_title(char *title)
 {
-  printf("-- %s --\n\n", title);
+  printf("\n-- %s --\n", title);
 }
