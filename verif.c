@@ -36,6 +36,8 @@ int verif_tab(Tab tab)
     return 1;
 }
 
+//Check possible gaps between squares by checking next:(x,y) == (x+-1,y) || next(x,y)==(x,y+-1)
+
 /**
  * @brief Verifies if the path represented by the list of coordinates is valid
  *
@@ -60,6 +62,33 @@ int verif_path(Lst_co l)
     }
     return 1;
 }
+
+int verif_gaps(Tab *tab, Lst_co path) {
+    Lst_co current = path;
+
+    while (current != NULL && current->suiv != NULL) {
+        int x = current->x;
+        int y = current->y;
+        int next_x = current->suiv->x;
+        int next_y = current->suiv->y;
+
+        // Check if the next cell in the path is a valid neighbor
+        if (next_y == y + 1 && tab->cells[y][x].down) {
+        } else if (next_y == y - 1 && tab->cells[y][x].up) {
+        } else if (next_x == x + 1 && tab->cells[y][x].right) {
+        } else if (next_x == x - 1 && tab->cells[y][x].left) {
+        } else {
+            // If none of the valid side match, there's a gap
+            printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x, next_y);
+            return 0; // Path has a gap
+        }
+        current = current->suiv;
+    }
+
+    return 1; // Path is continuous if no gaps were found
+}
+
+
 
 /**
  * @brief Checks if the given width and height are valid
