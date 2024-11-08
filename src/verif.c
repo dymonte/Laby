@@ -109,8 +109,8 @@ void test_maze(int width, int height, int show_msg, int display)
     print_title("Pathfinding");
 
   // Call the pathfinding algorithm from the starting position
-  // Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
-  Lst_co p = a_star_finding(&maze);
+  Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
+  // Lst_co p = a_star_finding(&maze);
 
   // Measure the time taken to find the path
   diff_time = difftime(time(NULL), t);
@@ -156,7 +156,7 @@ int verif_gaps(Tab *tab, Lst_co p)
     int next_x = current->suiv->x;
     int next_y = current->suiv->y;
 
-        // Check if the next cell in the path is a valid neighbor
+    // Check if the next cell in the path is a valid neighbor
     if (next_y == y + 1 && tab->cells[y][x].down)
     {
     }
