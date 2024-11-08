@@ -1,28 +1,26 @@
 #ifndef TAB_H
 #define TAB_H
 
-typedef enum
-{
-    normal,
-    path,
-    start,
-    end
-} type_cell;
+typedef enum { normal, path, start, end } type_cell;
 
-typedef struct cell
-{
-    unsigned int up : 1, down : 1, left : 1, right : 1;
-    type_cell type;
-    int visited;
+typedef struct cell {
+  unsigned int up : 1, down : 1, left : 1, right : 1;
+  type_cell type;
+  int visited;
 } Cell;
 
-typedef struct tab
-{
-    int width;
-    int height;
-    int start_x;
-    int start_y;
-    Cell **cells;
+typedef struct pos {
+  int x;
+  int y;
+} Pos;
+
+typedef struct tab {
+  int width;
+  int height;
+  int start_x; // used for generation
+  int start_y; // used for generation
+  Pos start;   // position of the start
+  Cell **cells;
 } Tab;
 
 /**

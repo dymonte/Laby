@@ -1,6 +1,6 @@
-#include "verif.h"
-#include <stdlib.h>
+#include "../deps/verif.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * @brief The main function of the program
@@ -16,8 +16,7 @@
  * test with the given parameters. Otherwise, the program prints an error
  * message.
  */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   if (argc != 5) // nb of arguments incorrect
   {
     fprintf(stderr, "Usage : ./main <width> <height> <show_msg> <display>\n");

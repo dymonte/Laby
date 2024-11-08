@@ -3,6 +3,24 @@
 
 #include "lst_co.h"
 #include "tab.h"
+#include <cmath>
+#include <system_error>
+
+typedef struct cost {
+  int gCost;
+  int hCost;
+  int fCost;
+} Cost;
+
+typedef struct cpos {
+  Pos actual;
+  Pos parentPos;
+} CouplePos;
+
+struct as_ll {
+  void *data;
+  struct as_ll *next;
+};
 
 /**
  * @brief Iterative pathfinding algorithm to find the shortest path to the exit.
@@ -13,7 +31,8 @@
  * If there is not, it removes the current cell from the list of coordinates.
  * The algorithm stops when it reaches the end of the maze.
  *
- * The end of the maze is designated as the bottom-right cell so it try to visits
+ * The end of the maze is designated as the bottom-right cell so it try to
+ visits
  * the bottom and then the right before the up and left neighbor.
  *
  * @param tab the Tab struct containing the maze
