@@ -27,6 +27,7 @@ obj/%.o:  src/%.c obj $(DEPS)
 obj:
 	mkdir obj
 
+# Generate the documentation
 doc: $(DOC_DIR)
 	$(DOXYGEN) ./Doxyfile
 	cd $(DOC_DIR)/latex && make pdf
@@ -48,4 +49,4 @@ clean:
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind run all
+.PHONY: clean valgrind run all doc
