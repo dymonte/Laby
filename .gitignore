@@ -2,3 +2,5 @@ test.c
 .vscode/settings.json
 *.o
 maze
+.DS_Store
+

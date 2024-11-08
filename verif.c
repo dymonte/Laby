@@ -36,7 +36,6 @@ int verif_tab(Tab tab)
     return 1;
 }
 
-//Check possible gaps between squares by checking next:(x,y) == (x+-1,y) || next(x,y)==(x,y+-1)
 
 /**
  * @brief Verifies if the path represented by the list of coordinates is valid
