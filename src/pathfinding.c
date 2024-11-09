@@ -220,6 +220,20 @@ bool comparePos(void *d1, void *d2) {
   return false;
 }
 
+bool contains_pos(struct as_ll *lst, Pos p) {
+  struct as_ll *tmp = lst;
+
+  while (tmp != NULL) {
+    Pos *actual = (Pos *)tmp->data;
+    if (actual->x == p.x && actual->y == p.y)
+      return true;
+
+    tmp = tmp->next;
+  }
+
+  return false;
+}
+
 Lst_co a_star_finding(Tab *tab) {
   Pos end_pos = {tab->width - 1, tab->height - 1};
   Pos current = end_pos;
@@ -241,29 +255,39 @@ Lst_co a_star_finding(Tab *tab) {
     if (tab->cells[y][x].up) {
       Pos up = {x, y - 1};
       CouplePos couple_pos = {up, current};
-      posOpened = add_ll(posOpened, &up, init_ll_pos);
-      parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+
+      if (!(contains_pos(posOpened, up) || contains_pos(posChecked, up))) {
+        posOpened = add_ll(posOpened, &up, init_ll_pos);
+        parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      }
     }
 
     if (tab->cells[y][x].down) {
       Pos down = {x, y + 1};
       CouplePos couple_pos = {down, current};
-      posOpened = add_ll(posOpened, &down, init_ll_pos);
-      parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      if (!(contains_pos(posOpened, down) || contains_pos(posChecked, down))) {
+        posOpened = add_ll(posOpened, &down, init_ll_pos);
+        parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      }
     }
 
     if (tab->cells[y][x].left) {
       Pos left = {x - 1, y};
       CouplePos couple_pos = {left, current};
-      posOpened = add_ll(posOpened, &left, init_ll_pos);
-      parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      if (!(contains_pos(posOpened, left) || contains_pos(posChecked, left))) {
+        posOpened = add_ll(posOpened, &left, init_ll_pos);
+        parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      }
     }
 
     if (tab->cells[y][x].right) {
       Pos right = {x + 1, y};
       CouplePos couple_pos = {right, current};
-      posOpened = add_ll(posOpened, &right, init_ll_pos);
-      parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      if (!(contains_pos(posOpened, right) ||
+            contains_pos(posChecked, right))) {
+        posOpened = add_ll(posOpened, &right, init_ll_pos);
+        parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
+      }
     }
 
     int best_node_index = 0;
@@ -271,7 +295,8 @@ Lst_co a_star_finding(Tab *tab) {
     int best_node_gcost = INT_MAX;
 
     struct as_ll *tmp = posOpened;
-    for (int i = 0; i < size_ll(posOpened); i++) {
+    int size_posOpened = size_ll(posOpened);
+    for (int i = 0; i < size_posOpened; i++) {
       Pos *pos = (Pos *)tmp->data;
       Cost cost = calculate_cost(end_pos, start_pos, pos);
 

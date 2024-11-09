@@ -3,9 +3,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-int verif_tab(Tab tab) {
-  for (int y = tab.start_y; y < tab.start_x + tab.height; y++) {
-    for (int x = tab.start_x; x < tab.start_x + tab.width; x++) {
+int verif_tab(Tab tab)
+{
+  for (int y = tab.start_y; y < tab.start_x + tab.height; y++)
+  {
+    for (int x = tab.start_x; x < tab.start_x + tab.width; x++)
+    {
       if (tab.cells[y][x].up == 1 && tab.cells[y - 1][x].down != 1)
         return 0;
 
@@ -30,11 +33,14 @@ int verif_path(Tab tab, Lst_co l) {
     return 0;
 }
 
-int verif_path_continuity(Lst_co l) {
+int verif_path_continuity(Lst_co l)
+{
   if (l == NULL)
     return 0;
-  while (l->suiv != NULL) {
-    if (abs(l->x - l->suiv->x) > 1 || abs(l->y - l->suiv->y) > 1) {
+  while (l->suiv != NULL)
+  {
+    if (abs(l->x - l->suiv->x) > 1 || abs(l->y - l->suiv->y) > 1)
+    {
       return 0;
     }
     l = l->suiv;
@@ -42,10 +48,12 @@ int verif_path_continuity(Lst_co l) {
   return 1;
 }
 
-int verif_path_start_end(Lst_co l, Tab tab) {
+int verif_path_start_end(Lst_co l, Tab tab)
+{
   Lst_co st = l;
 
-  while (st->suiv != NULL) {
+  while (st->suiv != NULL)
+  {
     st = st->suiv;
   }
 
@@ -53,11 +61,13 @@ int verif_path_start_end(Lst_co l, Tab tab) {
          tab.cells[st->y][st->x].type == start;
 }
 
-int verif_size(int width, int height) {
+int verif_size(int width, int height)
+{
   return width > 0 && height > 0 && (width > 1 || height > 1);
 }
 
-void test_maze(int width, int height, int show_msg, int display) {
+void test_maze(int width, int height, int show_msg, int display)
+{
   // Initialize the random number generator
 
   srand(time(NULL));
@@ -99,7 +109,7 @@ void test_maze(int width, int height, int show_msg, int display) {
 
   // Call the pathfinding algorithm from the starting position
   Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
-  //Lst_co p = a_star_finding(&maze);
+  // Lst_co p = a_star_finding(&maze);
 
   // Measure the time taken to find the path
   diff_time = difftime(time(NULL), t);
@@ -122,7 +132,8 @@ void test_maze(int width, int height, int show_msg, int display) {
   trace_path(maze, p);
 
   // Display the maze with the traced path
-  if (display) {
+  if (display)
+  {
     print_title("Display");
 
     maze_show(maze);
