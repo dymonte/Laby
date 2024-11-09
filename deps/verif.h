@@ -88,6 +88,18 @@ int verif_path_start_end(Lst_co l, Tab tab);
  */
 int verif_size(int width, int height);
 
+
+
+/**
+ * @brief Test the continuity in the path 
+ * 
+ * @param tab the Tab struct containing the maze in whuch we found a path
+ * @param path the list of coordinates representing the path 
+ * 
+ * @return 1 if the path is continuous, 0 if there is a gap in the path
+ */
+int verif_gaps(Tab tab, Lst_co path);
+
 /**
  * @brief Test the generation of a maze and the pathfinding algorithm
  *

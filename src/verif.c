@@ -24,7 +24,7 @@ int verif_tab(Tab tab) {
 }
 
 int verif_path(Tab tab, Lst_co l) {
-  if (verif_path_continuity(l) && verif_path_start_end(l, tab))
+  if (verif_path_continuity(l) && verif_path_start_end(l, tab) && verif_gaps(tab, l))
     return 1;
   else
     return 0;
@@ -98,8 +98,8 @@ void test_maze(int width, int height, int show_msg, int display) {
     print_title("Pathfinding");
 
   // Call the pathfinding algorithm from the starting position
-  // Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
-  Lst_co p = a_star_finding(&maze);
+  Lst_co p = pathfinding_iteratif(&maze, co_start, show_msg);
+  //Lst_co p = a_star_finding(&maze);
 
   // Measure the time taken to find the path
   diff_time = difftime(time(NULL), t);
@@ -133,28 +133,30 @@ void test_maze(int width, int height, int show_msg, int display) {
   free_tab(maze);
 }
 
-int verif_gaps(Tab *tab, Lst_co p) {
-  Lst_co current = p;
+int verif_gaps(Tab tab, Lst_co path) {
+    Lst_co current = path;
 
-  while (current != NULL && current->suiv != NULL) {
-    int x = current->x;
-    int y = current->y;
-    int next_x = current->suiv->x;
-    int next_y = current->suiv->y;
+    int x ,y ,next_x, next_y;
 
-    // Check if the next cell in the path is a valid neighbor
-    if (next_y == y + 1 && tab->cells[y][x].down) {
-    } else if (next_y == y - 1 && tab->cells[y][x].up) {
-    } else if (next_x == x + 1 && tab->cells[y][x].right) {
-    } else if (next_x == x - 1 && tab->cells[y][x].left) {
-    } else {
-      // If none of the valid side match, there's a gap
-      printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x,
-             next_y);
-      return 0; // Path has a gap
+    while (current != NULL && current->suiv != NULL) {
+        x = current->x;
+        y = current->y;
+        next_x = current->suiv->x;
+        next_y = current->suiv->y;
+
+        // Check if the next cell in the path is a valid neighbor
+
+        if ( !(next_y == y + 1 && tab.cells[y][x].down) && 
+        !(next_y == y - 1 && tab.cells[y][x].up) &&  
+        !(next_x == x + 1 && tab.cells[y][x].right) &&
+        !(next_x == x - 1 && tab.cells[y][x].left) )
+        {
+            // If none of the valid side match, there's a gap
+            printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x, next_y);
+            return 0; // Path has a gap
+        }
+        current = current->suiv;
     }
-    current = current->suiv;
-  }
 
-  return 1; // Path is continuous if no gaps were found
+    return 1; // Path is continuous if no gaps were found
 }
