@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define CLOCK_REALTIME 0
+
 int verif_tab(Tab tab)
 {
   for (int y = tab.start_y; y < tab.start_x + tab.height; y++)
@@ -80,7 +82,9 @@ void test_maze(int width, int height, int show_msg, int display)
     printf("Verif size (%d x %d) : ", width, height);
   V(verif_size(width, height), show_msg);
 
-  time_t t = time(&t);
+  struct timespec time_start, time_end;
+
+  clock_gettime(CLOCK_REALTIME, &time_start);
 
   if (show_msg)
     print_title("Generation of maze");
@@ -95,10 +99,13 @@ void test_maze(int width, int height, int show_msg, int display)
     printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
   // Measure the time taken to generate the maze
-  double diff_time = difftime(time(NULL), t);
+  clock_gettime(CLOCK_REALTIME, &time_end);
+
+  unsigned int diff_time = (time_end.tv_sec - time_start.tv_sec) * 1000 + (time_end.tv_nsec - time_start.tv_nsec) / 1000000;
   if (show_msg)
-    printf("Time to create the maze : %.2f secondes\n", diff_time);
-  time(&t);
+    printf("Time to create the maze : %dms\n", diff_time);
+
+  time_start = time_end;
 
   // Test the validity of the maze
   if (show_msg)
@@ -113,9 +120,10 @@ void test_maze(int width, int height, int show_msg, int display)
   // Lst_co p = a_star_finding(&maze);
 
   // Measure the time taken to find the path
-  diff_time = difftime(time(NULL), t);
+  clock_gettime(CLOCK_REALTIME, &time_end);
+  diff_time = (time_end.tv_sec - time_start.tv_sec) * 1000 + (time_end.tv_nsec - time_start.tv_nsec) / 1000000;
   if (show_msg)
-    printf("Time to find the path : %.2f secondes\n", diff_time);
+    printf("Time to find the path : %dms\n", diff_time);
 
   // Test the validity of the path
   if (show_msg)
