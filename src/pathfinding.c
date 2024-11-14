@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Lst_co pathfinding_recursive(Tab *tab, Lst_co l) {
+Lst_co pathfinding_recursive(Tab *tab, Lst_co l)
+{
   int x = l->x;
   int y = l->y;
   if (tab->cells[y][x].type == end)
@@ -25,12 +26,14 @@ Lst_co pathfinding_recursive(Tab *tab, Lst_co l) {
   return pathfinding_recursive(tab, l);
 }
 
-Lst_co pathfinding_iteratif(Tab *tab, Lst_co l, int show_msg) {
+Lst_co pathfinding_iteratif(Tab *tab, Lst_co l, int show_msg)
+{
   int x = l->x;
   int y = l->y;
   int i = 0;
 
-  while (tab->cells[y][x].type != end) {
+  while (tab->cells[y][x].type != end)
+  {
     i++;
 
     x = l->x;
@@ -59,7 +62,8 @@ Lst_co pathfinding_iteratif(Tab *tab, Lst_co l, int show_msg) {
 }
 
 // ---------------------- Start :  a star finding section ------------------
-Cost calculate_cost(Pos start_pos, Pos end_pos, Pos *actual) {
+Cost calculate_cost(Pos start_pos, Pos end_pos, Pos *actual)
+{
   Cost result;
 
   int xDistance = abs(
@@ -83,7 +87,8 @@ Cost calculate_cost(Pos start_pos, Pos end_pos, Pos *actual) {
   return result;
 }
 
-struct as_ll *init_ll_pos(void *a) {
+struct as_ll *init_ll_pos(void *a)
+{
   Pos *arg = (Pos *)a;
   struct as_ll *result = malloc(sizeof(struct as_ll));
   Pos *p = malloc(sizeof(Pos));
@@ -95,7 +100,8 @@ struct as_ll *init_ll_pos(void *a) {
   return result;
 }
 
-struct as_ll *init_ll_cpos(void *a) {
+struct as_ll *init_ll_cpos(void *a)
+{
   CouplePos *arg = (CouplePos *)a;
   struct as_ll *result = malloc(sizeof(struct as_ll));
   CouplePos *p = malloc(sizeof(CouplePos));
@@ -110,15 +116,18 @@ struct as_ll *init_ll_cpos(void *a) {
 }
 
 struct as_ll *add_ll(struct as_ll *head, void *data,
-                     struct as_ll *create(void *)) {
+                     struct as_ll *create(void *))
+{
   struct as_ll *new = create(data);
 
-  if (head == NULL) {
+  if (head == NULL)
+  {
     return new;
   }
 
   struct as_ll *tmp = head;
-  while (tmp->next != NULL) {
+  while (tmp->next != NULL)
+  {
     tmp = tmp->next;
   }
 
@@ -127,22 +136,26 @@ struct as_ll *add_ll(struct as_ll *head, void *data,
   return head;
 }
 
-void free_ll(struct as_ll *remove) {
+void free_ll(struct as_ll *remove)
+{
   remove->next = NULL;
   free(remove->data);
   free(remove);
 }
 
 struct as_ll *remove_ll(struct as_ll *head, void *data,
-                        bool (*compare)(void *, void *)) {
-  if (compare(head->data, data)) {
+                        bool (*compare)(void *, void *))
+{
+  if (compare(head->data, data))
+  {
     struct as_ll *next = head->next;
     free_ll(head);
     return next;
   }
 
   struct as_ll *tmp = head;
-  while (!(compare(head->next->data, data))) {
+  while (!(compare(head->next->data, data)))
+  {
     tmp = tmp->next;
   }
 
@@ -154,10 +167,12 @@ struct as_ll *remove_ll(struct as_ll *head, void *data,
   return head;
 }
 
-int size_ll(struct as_ll *head) {
+int size_ll(struct as_ll *head)
+{
   int result = 0;
   struct as_ll *tmp = head;
-  while (tmp != NULL) {
+  while (tmp != NULL)
+  {
     result++;
     tmp = tmp->next;
   }
@@ -165,10 +180,12 @@ int size_ll(struct as_ll *head) {
   return result;
 }
 
-void *get_ll(struct as_ll *head, int pos) {
+void *get_ll(struct as_ll *head, int pos)
+{
   int i = 0;
   struct as_ll *tmp = head;
-  while (tmp != NULL) {
+  while (tmp != NULL)
+  {
     if (i == pos)
       return tmp->data;
 
@@ -179,10 +196,12 @@ void *get_ll(struct as_ll *head, int pos) {
   return NULL;
 }
 
-Pos find_parent_pos(struct as_ll *parentPos, Pos current) {
+Pos find_parent_pos(struct as_ll *parentPos, Pos current)
+{
   bool reached = false;
   struct as_ll *tmp = parentPos;
-  while (!reached) {
+  while (!reached)
+  {
     CouplePos *couple = (CouplePos *)tmp->data;
     if (couple->actual.x == current.x && couple->actual.y == current.y)
       reached = true;
@@ -196,11 +215,13 @@ Pos find_parent_pos(struct as_ll *parentPos, Pos current) {
   return final_pos;
 }
 
-Lst_co get_path(struct as_ll *parentPos, Pos start_pos, Pos end_pos) {
+Lst_co get_path(struct as_ll *parentPos, Pos start_pos, Pos end_pos)
+{
   Pos current = {end_pos.x, end_pos.y};
   Lst_co result = new_lst_co(end_pos.x, end_pos.y);
 
-  while (current.x != start_pos.x || current.y != start_pos.y) {
+  while (current.x != start_pos.x || current.y != start_pos.y)
+  {
     Pos parent = find_parent_pos(parentPos, current);
     result = adjt_co(result, parent.x, parent.y);
     current = parent;
@@ -209,21 +230,25 @@ Lst_co get_path(struct as_ll *parentPos, Pos start_pos, Pos end_pos) {
   return result;
 }
 
-bool comparePos(void *d1, void *d2) {
+bool comparePos(void *d1, void *d2)
+{
   Pos *p1 = d1;
   Pos *p2 = d2;
 
-  if (p1->x == p2->x && p1->y == p2->y) {
+  if (p1->x == p2->x && p1->y == p2->y)
+  {
     return true;
   }
 
   return false;
 }
 
-bool contains_pos(struct as_ll *lst, Pos p) {
+bool contains_pos(struct as_ll *lst, Pos p)
+{
   struct as_ll *tmp = lst;
 
-  while (tmp != NULL) {
+  while (tmp != NULL)
+  {
     Pos *actual = (Pos *)tmp->data;
     if (actual->x == p.x && actual->y == p.y)
       return true;
@@ -234,7 +259,8 @@ bool contains_pos(struct as_ll *lst, Pos p) {
   return false;
 }
 
-Lst_co a_star_finding(Tab *tab) {
+Lst_co a_star_finding(Tab *tab)
+{
   Pos end_pos = {tab->width - 1, tab->height - 1};
   Pos current = end_pos;
   Pos start_pos = tab->start;
@@ -244,7 +270,8 @@ Lst_co a_star_finding(Tab *tab) {
   struct as_ll *parentPos = init_ll_cpos(&couple_current);
   bool destReached = false;
 
-  while (destReached == false) {
+  while (destReached == false)
+  {
     int x = current.x;
     int y = current.y;
 
@@ -252,39 +279,47 @@ Lst_co a_star_finding(Tab *tab) {
 
     posOpened = remove_ll(posOpened, &current, comparePos);
 
-    if (tab->cells[y][x].up) {
+    if (tab->cells[y][x].up)
+    {
       Pos up = {x, y - 1};
       CouplePos couple_pos = {up, current};
 
-      if (!(contains_pos(posOpened, up) || contains_pos(posChecked, up))) {
+      if (!(contains_pos(posOpened, up) || contains_pos(posChecked, up)))
+      {
         posOpened = add_ll(posOpened, &up, init_ll_pos);
         parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
       }
     }
 
-    if (tab->cells[y][x].down) {
+    if (tab->cells[y][x].down)
+    {
       Pos down = {x, y + 1};
       CouplePos couple_pos = {down, current};
-      if (!(contains_pos(posOpened, down) || contains_pos(posChecked, down))) {
+      if (!(contains_pos(posOpened, down) || contains_pos(posChecked, down)))
+      {
         posOpened = add_ll(posOpened, &down, init_ll_pos);
         parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
       }
     }
 
-    if (tab->cells[y][x].left) {
+    if (tab->cells[y][x].left)
+    {
       Pos left = {x - 1, y};
       CouplePos couple_pos = {left, current};
-      if (!(contains_pos(posOpened, left) || contains_pos(posChecked, left))) {
+      if (!(contains_pos(posOpened, left) || contains_pos(posChecked, left)))
+      {
         posOpened = add_ll(posOpened, &left, init_ll_pos);
         parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
       }
     }
 
-    if (tab->cells[y][x].right) {
+    if (tab->cells[y][x].right)
+    {
       Pos right = {x + 1, y};
       CouplePos couple_pos = {right, current};
       if (!(contains_pos(posOpened, right) ||
-            contains_pos(posChecked, right))) {
+            contains_pos(posChecked, right)))
+      {
         posOpened = add_ll(posOpened, &right, init_ll_pos);
         parentPos = add_ll(parentPos, &couple_pos, init_ll_cpos);
       }
@@ -296,16 +331,21 @@ Lst_co a_star_finding(Tab *tab) {
 
     struct as_ll *tmp = posOpened;
     int size_posOpened = size_ll(posOpened);
-    for (int i = 0; i < size_posOpened; i++) {
+    for (int i = 0; i < size_posOpened; i++)
+    {
       Pos *pos = (Pos *)tmp->data;
       Cost cost = calculate_cost(end_pos, start_pos, pos);
 
-      if (cost.fCost < best_node_fcost) {
+      if (cost.fCost < best_node_fcost)
+      {
         best_node_fcost = cost.fCost;
         best_node_gcost = cost.gCost;
         best_node_index = i;
-      } else if (cost.fCost == best_node_fcost) {
-        if (cost.gCost < best_node_gcost) {
+      }
+      else if (cost.fCost == best_node_fcost)
+      {
+        if (cost.gCost < best_node_gcost)
+        {
           best_node_gcost = cost.gCost;
           best_node_index = i;
         }
@@ -314,7 +354,8 @@ Lst_co a_star_finding(Tab *tab) {
 
     current = *((Pos *)get_ll(posOpened, best_node_index));
 
-    if (current.x == start_pos.x && current.y == start_pos.y) {
+    if (current.x == start_pos.x && current.y == start_pos.y)
+    {
       destReached = true;
     }
   }
@@ -326,8 +367,10 @@ Lst_co a_star_finding(Tab *tab) {
 
 // ---------------------- End : a star finding section ------------------
 
-void trace_path(Tab tab, Lst_co l) {
-  while (l != NULL) {
+void trace_path(Tab tab, Lst_co l)
+{
+  while (l != NULL)
+  {
     if (tab.cells[l->y][l->x].type != start &&
         tab.cells[l->y][l->x].type != end)
       tab.cells[l->y][l->x].type = path;

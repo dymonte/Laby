@@ -4,18 +4,21 @@
 #include "lst_co.h"
 #include "tab.h"
 
-typedef struct cost {
+typedef struct cost
+{
   int gCost;
   int hCost;
   int fCost;
 } Cost;
 
-typedef struct cpos {
+typedef struct cpos
+{
   Pos actual;
   Pos parentPos;
 } CouplePos;
 
-struct as_ll {
+struct as_ll
+{
   void *data;
   struct as_ll *next;
 };

@@ -16,7 +16,8 @@
  * test with the given parameters. Otherwise, the program prints an error
  * message.
  */
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   if (argc != 5) // nb of arguments incorrect
   {
     fprintf(stderr, "Usage : ./main <width> <height> <show_msg> <display>\n");

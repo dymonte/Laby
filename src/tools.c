@@ -1,12 +1,14 @@
 #include "../deps/tools.h"
 #include <stdlib.h>
 
-Lst_co init_start(Tab tab, int random_start) {
+Lst_co init_start(Tab tab, int random_start)
+{
   Pos s;
 
   s.x = 0;
   s.y = 0;
-  if (!random_start) {
+  if (!random_start)
+  {
     Lst_co l = new_lst_co(0, 0);
 
     tab.cells[0][0].type = start;
