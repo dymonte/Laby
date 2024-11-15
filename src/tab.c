@@ -49,21 +49,6 @@ void print_tab(Tab tab)
   }
 }
 
-/**
- * @brief Prints the given Tab struct as a maze in the console
- *
- * This function prints the given Tab struct as a maze in the console.
- * The maze is printed as a grid of characters, with '+' characters at the
- * corners, '-' characters for the north and south walls, and '|' characters
- * for the west and east walls. The type of each cell is represented by a
- * single character: ' ' for normal cells, 'S' for the start cell, and 'E'
- * for the end cell.
- *
- * @param t the Tab struct to print
- *
- * The start_x and start_y fields of the Tab struct are taken into account
- * when printing the maze.
- */
 void maze_show(Tab t)
 {
   for (int i = t.start_y; i < t.height; i++)
