@@ -21,10 +21,10 @@ Tab tab_start(int w, int h)
   return t;
 }
 
-Tab generate(Tab tab, int orientation, int random_wall, int random_orientation)
+void generate(Tab tab, int orientation, int random_wall, int random_orientation)
 {
   if (tab.height == 1 || tab.width == 1)
-    return tab;
+    return;
 
   Tab t1 = tab;
   Tab t2 = tab;
@@ -87,5 +87,5 @@ Tab generate(Tab tab, int orientation, int random_wall, int random_orientation)
     generate(t1, (orientation + 1) % 2, random_wall, random_orientation);
     generate(t2, (orientation + 1) % 2, random_wall, random_orientation);
   }
-  return tab;
+  return;
 }

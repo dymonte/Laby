@@ -48,6 +48,6 @@ Tab tab_start(int l, int h);
  *
  * @return the divided Tab struct
  */
-Tab generate(Tab tab, int orientation, int random_wall, int random_orientation);
+void generate(Tab tab, int orientation, int random_wall, int random_orientation);
 
 #endif
