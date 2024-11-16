@@ -1,8 +1,4 @@
 #include "../deps/pathfinding.h"
-#include <limits.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 Lst_co pathfinding_recursive(Tab *tab, Lst_co l)
 {

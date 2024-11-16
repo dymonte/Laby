@@ -1,5 +1,4 @@
 #include "../deps/generation.h"
-#include <stdlib.h>
 
 Tab tab_start(int w, int h)
 {

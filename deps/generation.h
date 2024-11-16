@@ -3,6 +3,8 @@
 
 #include "tab.h"
 
+#include <stdlib.h>
+
 /**
  * @brief Initializes a Tab struct with the given width and height and sets
  * the border cells walls to 0.

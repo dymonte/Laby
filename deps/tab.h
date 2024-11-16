@@ -1,6 +1,8 @@
 #ifndef TAB_H
 #define TAB_H
 
+#include <stdbool.h>
+
 typedef enum
 {
   normal,
@@ -11,9 +13,9 @@ typedef enum
 
 typedef struct cell
 {
-  unsigned int up : 1, down : 1, left : 1, right : 1;
-  type_cell type;
-  int visited;
+  bool up : 1, down : 1, left : 1, right : 1;
+  type_cell type : 2;
+  bool visited : 1;
 } Cell;
 
 typedef struct pos

@@ -1,8 +1,4 @@
 #include "../deps/verif.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 
 #define CLOCK_REALTIME 0
 

@@ -1,6 +1,9 @@
 #ifndef LST_CO_H
 #define LST_CO_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct lst_co
 {
     int x;

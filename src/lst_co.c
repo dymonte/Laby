@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "lst_co.h"
 
 Lst_co new_lst_co(int x, int y)
