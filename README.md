@@ -32,6 +32,13 @@ The following command will run the project.
 ./maze <width> <height> <show_msg> <display> [get_stats]
 ```
 
+
+### Cleaning
+The following command will clean the project.
+```bash
+make clean
+```
+
 ### Get statistics
 The following command will create two `CSV` files containing the time taken to generate the maze and to find the path in a maze.
 Then, the `generate_fig.py` script can be used to generate the graphs. It will generate two graphs in the `stats` directory.
@@ -40,11 +47,10 @@ To do that automatically, you can use the following command.
 make stat
 ```
 
-
-### Cleaning
-The following command will clean the project.
+### Test the project
+The following command will test the project with different sizes.
 ```bash
-make clean
+make test
 ```
 
 
