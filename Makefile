@@ -6,7 +6,7 @@ SRC = $(wildcard ./src/*.c)
 OBJ = $(SRC:./src/%.c=./obj/%.o)
 DEPS = $(wildcard ./deps/*.h)
 
-SH=sh
+SH=bash
 DOC_DIR = doc/
 OBJ_DIR = obj/
 DOXYGEN = doxygen
