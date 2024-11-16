@@ -32,5 +32,5 @@ def create_graph(name : str, title : str, y_label : str)->None:
 
     plt.savefig(f'stats/fig_{name}.png')
     
-for elem in [['gen', 'Time to create the maze as a function of the number of cells', 'Time to create the maze (ms)'], ['path', 'Time to solve the maze as a function of the number of cells', 'Time to solve the maze (ms)']]:
+for elem in [['gen', 'Time to create the maze as a function of the number of cells', 'Time to create the maze (microseconds)'], ['path', 'Time to solve the maze as a function of the number of cells', 'Time to solve the maze (microseconds)']]:
     create_graph(elem[0], elem[1], elem[2])

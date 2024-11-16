@@ -181,7 +181,7 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   unsigned int diff_time_gen = get_difftime(time1, time2);
 
   if (show_msg)
-    printf("Time to create the maze : %dms\n", diff_time_gen);
+    printf("Time to create the maze : %d microsecond(s)\n", diff_time_gen);
 
   // Test the validity of the maze
   if (show_msg)
@@ -200,7 +200,7 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   unsigned int diff_time_path = get_difftime(time2, time3);
 
   if (show_msg)
-    printf("Time to find the path : %dms\n", diff_time_gen);
+    printf("Time to find the path : %d microsecond(s)\n", diff_time_path);
 
   // Test the validity of the path
   if (show_msg)
