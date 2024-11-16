@@ -61,4 +61,4 @@ clean:
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind all doc stat build_stat test
+.PHONY: clean valgrind all doc stat test
