@@ -1,7 +1,7 @@
 start=10000
 gap=200
 max=20000
-repeat=2
+repeat=3
 gen=stats/result_gen.csv
 path=stats/result_path.csv
 

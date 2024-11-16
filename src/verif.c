@@ -70,6 +70,15 @@ int verif_size(int width, int height)
   return width > 0 && height > 0 && (width > 1 || height > 1);
 }
 
+/**
+ * @brief Writes the given time difference to a file
+ *
+ * This function takes a time difference in microseconds and writes it
+ * as a string to the specified file.
+ *
+ * @param diff_time the time difference to be written, in microseconds
+ * @param f the file pointer to which the time difference will be written
+ */
 void write_time(unsigned int diff_time, FILE *f)
 {
   char str_diff_time[32];
@@ -77,11 +86,31 @@ void write_time(unsigned int diff_time, FILE *f)
   fwrite(str_diff_time, strlen(str_diff_time), 1, f);
 }
 
+/**
+ * @brief Computes the difference in time between two timespec structures in microseconds
+ *
+ * @param time1 the first timespec structure
+ * @param time2 the second timespec structure
+ *
+ * @return the difference in time between the two timespec structures in microseconds
+ */
 unsigned int get_difftime(struct timespec time1, struct timespec time2)
 {
   return (time2.tv_sec - time1.tv_sec) * 1000000 + (time2.tv_nsec - time1.tv_nsec) / 1000;
 }
 
+/**
+ * @brief Writes the time taken to generate a maze and to find the path in a maze to csv files
+ *
+ * The function takes two parameters:
+ * - `diff_time_gen`: the time taken to generate the maze in microseconds
+ * - `diff_time_path`: the time taken to find the path in the maze in microseconds
+ *
+ * The function appends the times to the end of the files "stats/result_gen.csv" and "stats/result_path.csv"
+ *
+ * @param diff_time_gen the time taken to generate the maze in microseconds
+ * @param diff_time_path the time taken to find the path in the maze in microseconds
+ */
 void generate_stats(unsigned int diff_time_gen, unsigned int diff_time_path)
 {
   FILE *gen = fopen("stats/result_gen.csv", "a");
@@ -90,6 +119,36 @@ void generate_stats(unsigned int diff_time_gen, unsigned int diff_time_path)
   write_time(diff_time_path, solve);
   fclose(gen);
   fclose(solve);
+}
+
+int verif_gaps(Tab tab, Lst_co p)
+{
+  Lst_co current = p;
+
+  int x, y, next_x, next_y;
+
+  while (current != NULL && current->suiv != NULL)
+  {
+    x = current->x;
+    y = current->y;
+    next_x = current->suiv->x;
+    next_y = current->suiv->y;
+
+    // Check if the next cell in the path is a valid neighbor
+
+    if (!(next_y == y + 1 && tab.cells[y][x].down) &&
+        !(next_y == y - 1 && tab.cells[y][x].up) &&
+        !(next_x == x + 1 && tab.cells[y][x].right) &&
+        !(next_x == x - 1 && tab.cells[y][x].left))
+    {
+      // If none of the valid side match, there's a gap
+      printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x, next_y);
+      return 0; // Path has a gap
+    }
+    current = current->suiv;
+  }
+
+  return 1; // Path is continuous if no gaps were found
 }
 
 void test_maze(int width, int height, int show_msg, int display, int get_stats)
@@ -176,34 +235,4 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   // Free the allocated memory for the list and the maze
   free_lst_co(p);
   free_tab(maze);
-}
-
-int verif_gaps(Tab tab, Lst_co p)
-{
-  Lst_co current = p;
-
-  int x, y, next_x, next_y;
-
-  while (current != NULL && current->suiv != NULL)
-  {
-    x = current->x;
-    y = current->y;
-    next_x = current->suiv->x;
-    next_y = current->suiv->y;
-
-    // Check if the next cell in the path is a valid neighbor
-
-    if (!(next_y == y + 1 && tab.cells[y][x].down) &&
-        !(next_y == y - 1 && tab.cells[y][x].up) &&
-        !(next_x == x + 1 && tab.cells[y][x].right) &&
-        !(next_x == x - 1 && tab.cells[y][x].left))
-    {
-      // If none of the valid side match, there's a gap
-      printf("Gap detected between (%d, %d) and (%d, %d)\n", x, y, next_x, next_y);
-      return 0; // Path has a gap
-    }
-    current = current->suiv;
-  }
-
-  return 1; // Path is continuous if no gaps were found
 }
