@@ -5,3 +5,7 @@ maze
 html/
 latex/
 refman.pdf
+stats/result_gen.csv
+stats/result_path.csv
+stats/fig_path.png
+stats/fig_gen.png

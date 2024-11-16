@@ -18,9 +18,9 @@
  */
 int main(int argc, char *argv[])
 {
-  if (argc != 5) // nb of arguments incorrect
+  if (argc < 5 || argc > 6) // nb of arguments incorrect
   {
-    fprintf(stderr, "Usage : ./main <width> <height> <show_msg> <display>\n");
+    fprintf(stderr, "Usage : ./main <width> <height> <show_msg> <display> [get_stats]\n");
     return EXIT_FAILURE;
   }
 
@@ -29,7 +29,10 @@ int main(int argc, char *argv[])
   int show_msg = atoi(argv[3]);
   int display = atoi(argv[4]);
 
-  test_maze(width, height, show_msg, display);
+  if (argc == 6)
+    test_maze(width, height, show_msg, display, atoi(argv[5]));
+  else
+    test_maze(width, height, show_msg, display, 0);
 
   return EXIT_SUCCESS;
 }

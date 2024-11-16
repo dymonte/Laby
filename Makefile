@@ -6,7 +6,7 @@ SRC = $(wildcard ./src/*.c)
 OBJ = $(SRC:./src/%.c=./obj/%.o)
 DEPS = $(wildcard ./deps/*.h)
 
-
+SH=sh
 DOC_DIR = doc/
 OBJ_DIR = obj/
 DOXYGEN = doxygen
@@ -33,8 +33,19 @@ doc: $(DOC_DIR)
 	cd $(DOC_DIR)/latex && make pdf
 	cp -fr $(DOC_DIR)/latex/refman.pdf ./
 
+stat: $(EXEC) stats/result_gen.csv stats/result_path.csv
+	$(SH) stats/generate_stats.sh
+
+stats/result_gen.csv: 
+	touch $@
+	echo "width=height;nb_cells;time" >>$@
+
+stats/result_path.csv: 
+	touch $@
+	echo "width=height;nb_cells;time" >>$@
+
 test: $(EXEC)
-	bash ./test.sh
+	$(SH) ./test.sh
 
 $(DOC_DIR):
 	mkdir $(DOC_DIR)
@@ -44,9 +55,10 @@ clean:
 	rm -f $(EXEC)
 	rm -fr $(OBJ_DIR)
 	rm -fr $(DOC_DIR)
+	rm -f stats/result_gen.csv stats/result_path.csv stats/fig_gen.png stats/fig_path.png
 
 #Run valgrind
 valgrind: 
 	valgrind $(VALGRIND_FLAG) ./$(EXEC)
 
-.PHONY: clean valgrind all doc
+.PHONY: clean valgrind all doc stat build_stat test

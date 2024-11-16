@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define CLOCK_REALTIME 0
 
@@ -69,10 +70,31 @@ int verif_size(int width, int height)
   return width > 0 && height > 0 && (width > 1 || height > 1);
 }
 
-void test_maze(int width, int height, int show_msg, int display)
+void write_time(unsigned int diff_time, FILE *f)
+{
+  char str_diff_time[32];
+  sprintf(str_diff_time, "%d", diff_time);
+  fwrite(str_diff_time, strlen(str_diff_time), 1, f);
+}
+
+unsigned int get_difftime(struct timespec time1, struct timespec time2)
+{
+  return (time2.tv_sec - time1.tv_sec) * 1000000 + (time2.tv_nsec - time1.tv_nsec) / 1000;
+}
+
+void generate_stats(unsigned int diff_time_gen, unsigned int diff_time_path)
+{
+  FILE *gen = fopen("stats/result_gen.csv", "a");
+  FILE *solve = fopen("stats/result_path.csv", "a");
+  write_time(diff_time_gen, gen);
+  write_time(diff_time_path, solve);
+  fclose(gen);
+  fclose(solve);
+}
+
+void test_maze(int width, int height, int show_msg, int display, int get_stats)
 {
   // Initialize the random number generator
-
   srand(time(NULL));
 
   if (show_msg)
@@ -82,9 +104,9 @@ void test_maze(int width, int height, int show_msg, int display)
     printf("Verif size (%d x %d) : ", width, height);
   V(verif_size(width, height), show_msg);
 
-  struct timespec time_start, time_end;
+  struct timespec time1, time2, time3;
 
-  clock_gettime(CLOCK_REALTIME, &time_start);
+  clock_gettime(CLOCK_REALTIME, &time1);
 
   if (show_msg)
     print_title("Generation of maze");
@@ -99,13 +121,12 @@ void test_maze(int width, int height, int show_msg, int display)
     printf("Start : (%d, %d)\n", co_start->x, co_start->y);
 
   // Measure the time taken to generate the maze
-  clock_gettime(CLOCK_REALTIME, &time_end);
+  clock_gettime(CLOCK_REALTIME, &time2);
 
-  unsigned int diff_time = (time_end.tv_sec - time_start.tv_sec) * 1000 + (time_end.tv_nsec - time_start.tv_nsec) / 1000000;
+  unsigned int diff_time_gen = get_difftime(time1, time2);
+
   if (show_msg)
-    printf("Time to create the maze : %dms\n", diff_time);
-
-  time_start = time_end;
+    printf("Time to create the maze : %dms\n", diff_time_gen);
 
   // Test the validity of the maze
   if (show_msg)
@@ -120,10 +141,11 @@ void test_maze(int width, int height, int show_msg, int display)
   // Lst_co p = a_star_finding(&maze);
 
   // Measure the time taken to find the path
-  clock_gettime(CLOCK_REALTIME, &time_end);
-  diff_time = (time_end.tv_sec - time_start.tv_sec) * 1000 + (time_end.tv_nsec - time_start.tv_nsec) / 1000000;
+  clock_gettime(CLOCK_REALTIME, &time3);
+  unsigned int diff_time_path = get_difftime(time2, time3);
+
   if (show_msg)
-    printf("Time to find the path : %dms\n", diff_time);
+    printf("Time to find the path : %dms\n", diff_time_gen);
 
   // Test the validity of the path
   if (show_msg)
@@ -144,9 +166,12 @@ void test_maze(int width, int height, int show_msg, int display)
   if (display)
   {
     print_title("Display");
-
     maze_show(maze);
   }
+
+  // Generate statistics
+  if (get_stats)
+    generate_stats(diff_time_gen, diff_time_path);
 
   // Free the allocated memory for the list and the maze
   free_lst_co(p);

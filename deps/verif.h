@@ -119,7 +119,8 @@ int verif_gaps(Tab tab, Lst_co path);
  * @param height the height of the maze
  * @param show_msg a boolean indicating if the function should print messages
  * @param display a boolean indicating if the function should display the maze
+ * @param get_stats a boolean indicating if the function should generate statistics
  */
-void test_maze(int width, int height, int show_msg, int display);
+void test_maze(int width, int height, int show_msg, int display, int get_stats);
 
 #endif
