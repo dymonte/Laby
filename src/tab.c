@@ -8,7 +8,6 @@ Tab new_tab(int width, int height)
   tab.width = width;
   tab.height = height;
 
-  printf("allcoate tab %ld\n", sizeof(Cell) * width * height);
   tab.start_x = 0;
   tab.start_y = 0;
 
