@@ -4,7 +4,7 @@ Tab tab_start(int w, int h)
 {
   Tab t = new_tab(w, h);
 
-  for (int i = t.start_y; i < h; i++)
+  for (int i = t.start_y; i < h; i++) // generate walls
   {
     t.cells[i][t.start_x].left = 0;
     t.cells[i][t.start_x + w - 1].right = 0;

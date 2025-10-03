@@ -1,5 +1,5 @@
 start=10000
-gap=200
+gap=2000
 max=20000
 repeat=3
 gen=stats/result_gen.csv

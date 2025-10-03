@@ -12,6 +12,8 @@ Tab new_tab(int width, int height)
   tab.start_y = 0;
 
   tab.cells = (Cell **)malloc(sizeof(Cell *) * height);
+
+  printf("Size of maze : %ld octet\n", sizeof(Cell)*width*height);
   for (int i = 0; i < height; i++)
   {
     tab.cells[i] = (Cell *)malloc(sizeof(Cell) * width);
@@ -24,7 +26,7 @@ Tab new_tab(int width, int height)
       tab.cells[i][j].type = normal;
       tab.cells[i][j].visited = 0;
     }
-  }
+  } 
   tab.cells[height - 1][width - 1].type = end;
   return tab;
 }
