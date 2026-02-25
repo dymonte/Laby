@@ -156,7 +156,10 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
     print_title("Start");
 
   if (show_msg)
+  {
+    print_start_line();
     printf("Verif size (%d x %d) : ", width, height);
+  }
   V(verif_size(width, height), show_msg);
 
   struct timespec time1, time2, time3;
@@ -164,8 +167,10 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   clock_gettime(CLOCK_REALTIME, &time1);
 
   if (show_msg)
+  {
     print_title("Generation of maze");
-  Tab maze = tab_start(width, height);
+  }
+  Tab maze = tab_start(width, height, show_msg);
 
   // Generate a maze of size (width x height)
   generate(maze, 0, 1, 0);
@@ -173,19 +178,27 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   // Random starting position for pathfinding
   Lst_co co_start = init_start(maze, 1);
   if (show_msg)
+  {
+    print_start_line();
     printf("Start : (%d, %d)\n", co_start->x, co_start->y);
-
+  }
   // Measure the time taken to generate the maze
   clock_gettime(CLOCK_REALTIME, &time2);
 
   unsigned int diff_time_gen = get_difftime(time1, time2);
 
   if (show_msg)
+  {
+    print_start_line();
     printf("Time to create the maze : %d microsecond(s)\n", diff_time_gen);
+  }
 
   // Test the validity of the maze
   if (show_msg)
+  {
+    print_start_line();
     printf("Verif integrity of maze : ");
+  }
   V(verif_tab(maze), show_msg);
 
   if (show_msg)
@@ -200,16 +213,25 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   unsigned int diff_time_path = get_difftime(time2, time3);
 
   if (show_msg)
+  {
+    print_start_line();
     printf("Time to find the path : %d microsecond(s)\n", diff_time_path);
+  }
 
   // Test the validity of the path
   if (show_msg)
+  {
+    print_start_line();
     printf("Verif integrity of path : ");
+  }
 
   V(verif_path(maze, p), show_msg);
 
   if (show_msg)
+  {
+    print_start_line();
     printf("Length of the path : %d\n", len_co(p));
+  }
 
   // Display the coordinates of the found path
   // show_co(path);

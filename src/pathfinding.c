@@ -52,7 +52,10 @@ Lst_co pathfinding_iteratif(Tab *tab, Lst_co l, int show_msg)
   };
 
   if (show_msg)
+  {
+    print_start_line();
     printf("Number of iterations : %d\n", i);
+  }
 
   return l;
 }

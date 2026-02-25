@@ -15,10 +15,11 @@
  *
  * @param w the number of columns in the tab
  * @param h the number of rows in the tab
+ * @param show_msg if 1, print the size of the tab
  *
  * @return a Tab struct with the given width and height
  */
-Tab tab_start(int l, int h);
+Tab tab_start(int l, int h, int show_msg);
 
 /**
  * @brief Generates a maze recursively by dividing the given Tab struct into

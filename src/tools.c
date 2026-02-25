@@ -35,4 +35,11 @@ Lst_co init_start(Tab tab, int random_start)
   return l;
 }
 
-void print_title(char *title) { printf("\n-- %s --\n", title); }
+void print_start_line() { printf("| "); }
+
+void print_title(char *title)
+{
+  printf("\n\n| --- %s ---\n", title);
+  print_start_line();
+  printf("\n");
+}

@@ -28,4 +28,6 @@ Lst_co init_start(Tab tab, int random_start);
  */
 void print_title(char *title);
 
+void print_start_line();
+
 #endif

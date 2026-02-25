@@ -1,8 +1,8 @@
 #include "../deps/generation.h"
 
-Tab tab_start(int w, int h)
+Tab tab_start(int w, int h, int show_msg)
 {
-  Tab t = new_tab(w, h);
+  Tab t = new_tab(w, h, show_msg);
 
   for (int i = t.start_y; i < h; i++) // generate walls
   {

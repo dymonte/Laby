@@ -1,6 +1,6 @@
 test.c
 .vscode/
-obj/
+bin/
 maze
 html/
 latex/

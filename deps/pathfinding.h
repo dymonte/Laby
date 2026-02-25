@@ -3,6 +3,7 @@
 
 #include "lst_co.h"
 #include "tab.h"
+#include "tools.h"
 
 #include <limits.h>
 #include <stdbool.h>

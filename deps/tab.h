@@ -43,10 +43,11 @@ typedef struct tab
  *
  * @param width the number of columns in the tab
  * @param height the number of rows in the tab
+ * @param show_msg if true, print additional information (size of maze)
  *
  * @return a Tab struct with the given width and height
  */
-Tab new_tab(int width, int height);
+Tab new_tab(int width, int height, int show_msg);
 
 /**
  * @brief Frees the memory allocated for the given Tab struct
@@ -87,6 +88,14 @@ void print_tab(Tab tab);
  * when printing the maze.
  */
 void maze_show(Tab tab);
+
+/**
+ * @brief Converts a type_cell enum value to a string representation
+ *
+ * @param type the type_cell enum value to convert
+ *
+ * @return a string representation of the type_cell enum value
+ */
 char *type_to_str(type_cell type);
 
 #endif

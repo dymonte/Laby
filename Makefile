@@ -3,29 +3,29 @@ CC = gcc
 CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps -g3
 EXEC = maze 
 SRC = $(wildcard ./src/*.c)
-OBJ = $(SRC:./src/%.c=./obj/%.o)
+BIN = $(SRC:./src/%.c=./bin/%.o)
 DEPS = $(wildcard ./deps/*.h)
 
 SH=bash
 DOC_DIR = doc/
-OBJ_DIR = obj/
+BIN_DIR = bin/
 DOXYGEN = doxygen
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
 #Complie, run and clean
 all : $(EXEC) test clean
 
-#Compile the program according to EXEC, OBJETS, CC, LDFLAGS
-$(EXEC): $(OBJ)
+#Compile the program according to EXEC, BINETS, CC, LDFLAGS
+$(EXEC): $(BIN)
 	$(CC) $(CFLAGS) -o $@ $^
 
-#Generate the .o files in a temporary directory "obj" which is created just before the files .o creation
-obj/%.o:  src/%.c obj $(DEPS)
+#Generate the .o files in a temporary directory "bin" which is created just before the files .o creation
+bin/%.o:  src/%.c bin $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-#Create the temporary directory "obj"
-obj:
-	mkdir obj
+#Create the temporary directory "bin"
+bin:
+	mkdir bin
 
 # Generate the documentation
 doc: $(DOC_DIR)
@@ -53,7 +53,7 @@ $(DOC_DIR):
 #Clean everything
 clean:
 	rm -f $(EXEC)
-	rm -fr $(OBJ_DIR)
+	rm -fr $(BIN_DIR)
 	rm -fr $(DOC_DIR)
 	rm -f stats/result_gen.csv stats/result_path.csv stats/fig_gen.png stats/fig_path.png
 
