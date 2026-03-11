@@ -24,7 +24,7 @@ static int old_y = 0;
 
 static float looking_at[3] = {0.0, 0.0, 0.0};
 
-static float pos[3] = {0.0, 0.1, 0.0};
+static float pos[3] = {0.0, 0.2, 0.0};
 
 static int camera = 0;
 
@@ -269,7 +269,7 @@ static void mouseMotion(int x, int y)
     old_y = y;
 
     rotate_x += dx;
-    rotate_y += dy;
+    rotate_y -= dy;
 
     printf("rotate_x = %f, rotate_y = %f\n", rotate_x, rotate_y);
 
