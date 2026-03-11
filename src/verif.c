@@ -173,7 +173,7 @@ void test_maze(int width, int height, int show_msg, int display, int get_stats)
   Tab maze = tab_start(width, height, show_msg);
 
   // Generate a maze of size (width x height)
-  generate(maze, 0, 1, 0);
+  generate(maze, 0, 1, 1);
 
   // Random starting position for pathfinding
   Lst_co co_start = init_start(maze, 1);

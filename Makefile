@@ -15,7 +15,7 @@ VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes
 #Complie, run and clean
 all : $(EXEC) test3D affichage3D
 
-test : $(EXEC) test clean
+all-test : $(EXEC) test clean
 
 #Compile the program according to EXEC, BINETS, CC, LDFLAGS
 $(EXEC): $(BIN)

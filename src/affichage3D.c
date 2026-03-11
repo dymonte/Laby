@@ -37,73 +37,6 @@ enum wall_side
 };
 
 Tab tab;
-// static void model_maze(Tab t, float x, float z)
-// {
-//     glBegin(GL_QUADS);
-//     glVertex3f(x / 2, 0, z / 2);
-//     glVertex3f(-x / 2, 0, z / 2);
-//     glVertex3f(-x / 2, 0, -z / 2);
-//     glVertex3f(x / 2, 0, -z / 2);
-//     glEnd();
-
-//     float size_cell_x = x / t.width;
-//     float size_cell_z = z / t.height;
-
-//     float x_min = -x / 2;
-//     float z_min = -z / 2;
-
-//     float height = 0.2;
-
-//     for (int i = 0; i < t.height; i++)
-//     {
-//         for (int j = 0; j < t.width; j++)
-//         {
-//             if (j == 0 && !t.cells[i][j].left)
-//             {
-//                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 0.0, 1.0, 1.0});
-//                 glBegin(GL_QUADS);
-//                 glVertex3f(x_min + size_cell_x * j, 0.0, z_min + size_cell_z * i);
-//                 glVertex3f(x_min + size_cell_x * j, 0.0, z_min + size_cell_z * (i + 1));
-//                 glVertex3f(x_min + size_cell_x * j, height, z_min + size_cell_z * (i + 1));
-//                 glVertex3f(x_min + size_cell_x * j, height, z_min + size_cell_z * i);
-//                 glEnd();
-//             }
-
-//             if (i == 0 && !t.cells[i][j].up)
-//             {
-//                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 1.0, 0.0, 1.0});
-//                 glBegin(GL_QUADS);
-//                 glVertex3f(x_min + size_cell_x * j, 0.0, z_min + size_cell_z * i);
-//                 glVertex3f(x_min + size_cell_x * (j + 1), 0.0, z_min + size_cell_z * i);
-//                 glVertex3f(x_min + size_cell_x * (j + 1), height, z_min + size_cell_z * i);
-//                 glVertex3f(x_min + size_cell_x * j, height, z_min + size_cell_z * i);
-//                 glEnd();
-//             }
-
-//             if (!t.cells[i][j].down)
-//             {
-//                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 0.0, 0.0, 1.0});
-//                 glBegin(GL_QUADS);
-//                 glVertex3f(x_min + size_cell_x * j, 0, z_min + size_cell_z * (i + 1));
-//                 glVertex3f(x_min + size_cell_x * j, height, z_min + size_cell_z * (i + 1));
-//                 glVertex3f(x_min + size_cell_x * (j + 1), height, z_min + size_cell_z * (i + 1));
-//                 glVertex3f(x_min + size_cell_x * (j + 1), 0.0, z_min + size_cell_z * (i + 1));
-//                 glEnd();
-//             }
-//             if (!t.cells[i][j].right)
-//             {
-//                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){0.0, 1.0, 0.0, 1.0});
-//                 glBegin(GL_QUADS);
-//                 glVertex3f(x_min + size_cell_x * (j + 1), 0, z_min + size_cell_z * i);
-//                 glVertex3f(x_min + size_cell_x * (j + 1), height, z_min + size_cell_z * i);
-//                 glVertex3f(x_min + size_cell_x * (j + 1), height, z_min + size_cell_z * (i + 1));
-//                 glVertex3f(x_min + size_cell_x * (j + 1), 0.0, z_min + size_cell_z * (i + 1));
-//                 glEnd();
-//             }
-//             glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 1.0, 1.0, 1.0});
-//         }
-//     }
-// }
 
 static void normalizeVector2D(float v[2])
 {
@@ -134,7 +67,9 @@ static void model_maze(Tab t, float x, float z, float height)
     float x_min = -x / 2;
     float z_min = -z / 2;
 
-    float wall_thickness = 0.3;
+    float wall_thickness = 0.2;
+
+    float pillar_thickness = 0.2;
 
     for (int i = 0; i < t.height; i++)
     {
@@ -144,7 +79,7 @@ static void model_maze(Tab t, float x, float z, float height)
             {
                 glPushMatrix();
                 glTranslatef(x_min, height / 2, z_min + size_cell_z * i + size_cell_z / 2);
-                glScalef(wall_thickness, height, size_cell_z);
+                glScalef(wall_thickness, height, size_cell_z - pillar_thickness);
                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 1.0, 0.0, 1.0});
                 glutSolidCube(1.0);
                 glPopMatrix();
@@ -154,7 +89,7 @@ static void model_maze(Tab t, float x, float z, float height)
             {
                 glPushMatrix();
                 glTranslatef(x_min + size_cell_x * j + size_cell_x / 2, height / 2, z_min);
-                glScalef(size_cell_x, height, wall_thickness);
+                glScalef(size_cell_x - pillar_thickness, height, wall_thickness);
                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 0.0, 1.0, 1.0});
                 glutSolidCube(1.0);
                 glPopMatrix();
@@ -164,7 +99,7 @@ static void model_maze(Tab t, float x, float z, float height)
             {
                 glPushMatrix();
                 glTranslatef(x_min + size_cell_x * j + size_cell_x / 2, height / 2, z_min + size_cell_z * (i + 1));
-                glScalef(size_cell_x, height, wall_thickness);
+                glScalef(size_cell_x - pillar_thickness, height, wall_thickness);
                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 0.0, 0.0, 1.0});
                 glutSolidCube(1.0);
                 glPopMatrix();
@@ -174,11 +109,25 @@ static void model_maze(Tab t, float x, float z, float height)
             {
                 glPushMatrix();
                 glTranslatef(x_min + size_cell_x * (j + 1), height / 2, z_min + size_cell_z * i + size_cell_z / 2);
-                glScalef(wall_thickness, height, size_cell_z);
+                glScalef(wall_thickness, height, size_cell_z - pillar_thickness);
                 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){0.0, 1.0, 0.0, 1.0});
                 glutSolidCube(1.0);
                 glPopMatrix();
             }
+        }
+    }
+
+    // draw connection between walls
+    for (int i = 0; i < t.height + 1; i++)
+    {
+        for (int j = 0; j < t.width + 1; j++)
+        {
+            glPushMatrix();
+            glTranslatef(x_min + size_cell_x * j, height / 2, z_min + size_cell_z * i);
+            glScalef(pillar_thickness, height, pillar_thickness);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){0.0, 0.0, 1.0, 1.0});
+            glutSolidCube(1.0);
+            glPopMatrix();
         }
     }
 }
@@ -215,7 +164,7 @@ static void display(void)
         gluLookAt(
             0.0, 10.0, 0.0, // position caméra
             0.0, 0.0, 0.0,  // point regardé
-            0.0, 0.0, 1.0);
+            0.0, 0.0, -1.0);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -245,6 +194,7 @@ static void reshape(int wx, int wy)
 
 static void idle(void)
 {
+    glutWarpPointer(wTx / 2, wTy / 2);
     glutPostRedisplay();
 }
 
@@ -278,6 +228,10 @@ static void mouseMotion(int x, int y)
     looking_at[2] = -cos(rotate_y) * cos(rotate_x);
 
     glutPostRedisplay();
+}
+
+static void passiveMotion(int x, int y)
+{
 }
 
 static void keyboard(unsigned char key, int x, int y)
@@ -339,7 +293,7 @@ int main(int argc, char *argv[])
     glutSpecialFunc(specialKey);
     glutKeyboardFunc(keyboard);
 
-    // glutPassiveMotionFunc(passiveMouseMotion);
+    glutPassiveMotionFunc(passiveMotion);
     glutReshapeFunc(reshape);
     glutIdleFunc(idle);
     glutIdleFunc(NULL);
