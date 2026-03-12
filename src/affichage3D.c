@@ -11,6 +11,8 @@
 
 #include <math.h>
 
+#define MOUSE_SENS 0.003
+
 static int wTx = 480; // Resolution horizontale de la fenetre
 static int wTy = 480; // Resolution verticale de la fenetre
 static int wPx = 50;  // Position horizontale de la fenetre
@@ -22,11 +24,13 @@ static float rotate_y = 0.0f;
 static int old_x = 0;
 static int old_y = 0;
 
-static float looking_at[3] = {0.0, 0.0, 0.0};
+static float looking_at[3] = {0.0, 0.0, -1.0};
 
-static float pos[3] = {0.0, 0.2, 0.0};
+static float pos[3] = {0.0, 1.75, 0.0};
 
 static int camera = 0;
+
+static float movement_speed = 0.3;
 
 enum wall_side
 {
@@ -55,6 +59,7 @@ static void model_maze(Tab t, float x, float z, float height)
 {
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 1.0, 1.0, 1.0});
     glBegin(GL_QUADS);
+    glNormal3f(0, 1, 0);
     glVertex3f(x / 2, 0, z / 2);
     glVertex3f(-x / 2, 0, z / 2);
     glVertex3f(-x / 2, 0, -z / 2);
@@ -67,9 +72,9 @@ static void model_maze(Tab t, float x, float z, float height)
     float x_min = -x / 2;
     float z_min = -z / 2;
 
-    float wall_thickness = 0.2;
+    float wall_thickness = 0.4;
 
-    float pillar_thickness = 0.2;
+    float pillar_thickness = 0.6;
 
     for (int i = 0; i < t.height; i++)
     {
@@ -135,7 +140,6 @@ static void model_maze(Tab t, float x, float z, float height)
 static void init(void)
 {
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
@@ -144,16 +148,24 @@ static void init(void)
 static void scene(void)
 {
     glPushMatrix();
-    model_maze(tab, 10, 10, 1);
+    model_maze(tab, 30, 30, 4);
+    glPopMatrix();
+
+    glPushMatrix();
+    if (camera == 1)
+    {
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0, 0.0, 1.0, 1.0});
+        glTranslatef(pos[0], pos[1], pos[2]);
+        glutSolidSphere(0.3, 20, 20);
+    }
     glPopMatrix();
 }
 
 static void display(void)
 {
-    glLightfv(GL_LIGHT0, GL_AMBIENT, (float[]){1.0, 1.0, 1.0, 0.2});
-    glMatrixMode(GL_MODELVIEW);
 
-    glLoadIdentity();
+    glEnable(GL_LIGHT0);
+    glPushMatrix();
 
     if (camera == 0)
         gluLookAt(
@@ -162,13 +174,26 @@ static void display(void)
             0.0, 1.0, 0.0);
     else
         gluLookAt(
-            0.0, 10.0, 0.0, // position caméra
+            0.0, 30.0, 0.0, // position caméra
             0.0, 0.0, 0.0,  // point regardé
             0.0, 0.0, -1.0);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    if (camera == 0)
+    {
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, (float[]){1.0, 1.0, 1.0, 1.0});
+        glLightfv(GL_LIGHT0, GL_POSITION, (float[]){pos[0], pos[1], pos[2], 1.0});
+        glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
+    }
+    else
+    {
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, (float[]){1.0, 1.0, 1.0, 1.0});
+        glLightfv(GL_LIGHT0, GL_POSITION, (float[]){0.0, 10.0, 0.0, 0.0});
+        glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.0);
+    }
     scene();
+    glPopMatrix();
 
     glFlush();
     glutSwapBuffers();
@@ -194,14 +219,18 @@ static void reshape(int wx, int wy)
 
 static void idle(void)
 {
-    glutWarpPointer(wTx / 2, wTy / 2);
+
     glutPostRedisplay();
 }
 
 static void mouse(int button, int state, int x, int y)
 {
+    (void)button;
+    (void)state;
     old_x = x;
     old_y = y;
+    // glfwDisable(GLFW_MOUSE_CURSOR);
+    glutPostRedisplay();
 }
 
 static void mouseMotion(int x, int y)
@@ -212,19 +241,19 @@ static void mouseMotion(int x, int y)
     // old_y = y;
     // glutPostRedisplay();
 
-    float dx = (x - old_x) * 0.003;
-    float dy = (y - old_y) * 0.003;
+    float dx = (x - old_x) * MOUSE_SENS;
+    float dy = (y - old_y) * MOUSE_SENS;
 
     old_x = x;
     old_y = y;
 
     rotate_x += dx;
-    rotate_y -= dy;
+    rotate_y += dy;
 
     printf("rotate_x = %f, rotate_y = %f\n", rotate_x, rotate_y);
 
     looking_at[0] = cos(rotate_y) * sin(rotate_x);
-    looking_at[1] = sin(rotate_y);
+    looking_at[1] = -sin(rotate_y);
     looking_at[2] = -cos(rotate_y) * cos(rotate_x);
 
     glutPostRedisplay();
@@ -232,23 +261,52 @@ static void mouseMotion(int x, int y)
 
 static void passiveMotion(int x, int y)
 {
+    (void)x;
+    (void)y;
 }
 
 static void keyboard(unsigned char key, int x, int y)
 {
+    printf("key\n");
+    (void)x;
+    (void)y;
+    float vect[2] = {looking_at[0], looking_at[2]};
+    normalizeVector2D(vect);
+    scaleVector2D(vect, movement_speed);
     switch (key)
     {
     case 'c':
         camera = (camera + 1) % 2;
         break;
+    case 'q':
+        pos[0] += vect[1];
+        pos[2] -= vect[0];
+        break;
+    case 'd':
+        pos[0] -= vect[1];
+        pos[2] += vect[0];
+        break;
+    case 'z':
+        pos[0] += vect[0];
+        pos[2] += vect[1];
+        break;
+    case 's':
+        pos[0] -= vect[0];
+        pos[2] -= vect[1];
+        break;
     }
+
+    glutPostRedisplay();
 }
 
 static void specialKey(int key, int x, int y)
 {
+    (void)x;
+    (void)y;
+
     float vect[2] = {looking_at[0], looking_at[2]};
     normalizeVector2D(vect);
-    scaleVector2D(vect, 0.1);
+    scaleVector2D(vect, movement_speed);
     switch (key)
     {
     case GLUT_KEY_LEFT:
@@ -285,7 +343,7 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
-    glutCreateWindow("Gestion �v�nementielle de GLUt");
+    glutCreateWindow("Affichage 3D maze");
     init();
 
     glutMouseFunc(mouse);
@@ -299,7 +357,6 @@ int main(int argc, char *argv[])
     glutIdleFunc(NULL);
     glutDisplayFunc(display);
     glutMainLoop();
-    return (0);
 
     return 0;
 }

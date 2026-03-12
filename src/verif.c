@@ -1,4 +1,4 @@
-#include "../deps/verif.h"
+#include "verif.h"
 
 #define CLOCK_REALTIME 0
 

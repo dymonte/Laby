@@ -1,4 +1,4 @@
-#include "../deps/tools.h"
+#include "tools.h"
 #include <stdlib.h>
 
 Lst_co init_start(Tab tab, int random_start)

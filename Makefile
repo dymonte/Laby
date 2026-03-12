@@ -4,7 +4,7 @@ CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align  -I./dep
 EXEC = maze 
 SRC = $(filter-out ./src/affichage3D.c ./src/test3D.c, $(wildcard ./src/*.c))
 BIN = $(SRC:./src/%.c=./bin/%.o)
-DEPS = $(wildcard ./deps/*.h)
+DEPS = $(wildcard ./inc/*.h)
 
 SH=bash
 DOC_DIR = doc/
@@ -19,7 +19,7 @@ all-test : $(EXEC) test clean
 
 #Compile the program according to EXEC, BINETS, CC, LDFLAGS
 $(EXEC): $(BIN)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -Iinc/
 
 affichage3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/affichage3D.o
 	gcc -o $@ $^ -lGL -lGLU -lglut -lm
@@ -30,7 +30,7 @@ test3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/test3D.o
 
 #Generate the .o files in a temporary directory "bin" which is created just before the files .o creation
 bin/%.o:  src/%.c bin $(DEPS)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< -Iinc/
 
 #Create the temporary directory "bin"
 bin:
