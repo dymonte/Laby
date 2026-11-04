@@ -59,6 +59,12 @@ The following command will test the project with different sizes.
 make test
 ```
 
+### Generate documentation
+The following command will generate the [Doxygen](https://www.doxygen.nl/) doc :
+```bash
+make doc
+```
+
 
 
 
