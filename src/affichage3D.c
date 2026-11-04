@@ -1,4 +1,4 @@
-#include "../deps/affichage3D.h"
+#include "affichage3D.h"
 
 #include <stdlib.h>
 #include <stdio.h>
