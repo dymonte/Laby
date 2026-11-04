@@ -2,6 +2,7 @@
 CC = gcc
 CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align  -I./deps -g3
 EXEC = maze 
+EXEC3D = 3D
 SRC = $(filter-out ./src/affichage3D.c ./src/test3D.c, $(wildcard ./src/*.c))
 BIN = $(SRC:./src/%.c=./bin/%.o)
 DEPS = $(wildcard ./inc/*.h)
@@ -21,7 +22,7 @@ all-test : $(EXEC) test clean
 $(EXEC): $(BIN)
 	$(CC) $(CFLAGS) -o $@ $^ -Iinc/
 
-affichage3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/affichage3D.o
+3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/affichage3D.o
 	gcc -o $@ $^ -lGL -lGLU -lglut -lm
 
 test3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/test3D.o
@@ -62,6 +63,7 @@ $(DOC_DIR):
 #Clean everything
 clean:
 	rm -f $(EXEC)
+	rm -f $(EXEC3D)
 	rm -fr $(BIN_DIR)
 	rm -fr $(DOC_DIR)
 	rm -f stats/result_gen.csv stats/result_path.csv stats/fig_gen.png stats/fig_path.png
