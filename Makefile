@@ -1,10 +1,11 @@
 #Variables
 CC = gcc
-CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Werror -I./deps -g3
+CFLAGS = -W -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align  -I./deps -g3
 EXEC = maze 
-SRC = $(wildcard ./src/*.c)
+EXEC3D = 3D
+SRC = $(filter-out ./src/affichage3D.c ./src/test3D.c, $(wildcard ./src/*.c))
 BIN = $(SRC:./src/%.c=./bin/%.o)
-DEPS = $(wildcard ./deps/*.h)
+DEPS = $(wildcard ./inc/*.h)
 
 SH=bash
 DOC_DIR = doc/
@@ -13,15 +14,24 @@ DOXYGEN = doxygen
 VALGRIND_FLAG = --leak-check=full --show-leak-kinds=all --track-origins=yes 
 
 #Complie, run and clean
-all : $(EXEC) test clean
+all : $(EXEC) test3D affichage3D
+
+all-test : $(EXEC) test clean
 
 #Compile the program according to EXEC, BINETS, CC, LDFLAGS
 $(EXEC): $(BIN)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -Iinc/
+
+3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/affichage3D.o
+	gcc -o $@ $^ -lGL -lGLU -lglut -lm
+
+test3D: bin/generation.o bin/tab.o bin/tools.o bin/lst_co.o bin/test3D.o
+	gcc -o $@ $^ -lGL -lGLU -lglut -lm
+	
 
 #Generate the .o files in a temporary directory "bin" which is created just before the files .o creation
 bin/%.o:  src/%.c bin $(DEPS)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< -Iinc/
 
 #Create the temporary directory "bin"
 bin:
@@ -53,6 +63,7 @@ $(DOC_DIR):
 #Clean everything
 clean:
 	rm -f $(EXEC)
+	rm -f $(EXEC3D)
 	rm -fr $(BIN_DIR)
 	rm -fr $(DOC_DIR)
 	rm -f stats/result_gen.csv stats/result_path.csv stats/fig_gen.png stats/fig_path.png

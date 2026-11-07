@@ -1,5 +1,5 @@
-#include "../deps/tab.h"
-#include "../deps/tools.h"
+#include "tab.h"
+#include "tools.h"
 #include <stdio.h>
 #include <stdlib.h>
 

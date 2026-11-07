@@ -1,4 +1,4 @@
-#include "../deps/generation.h"
+#include "generation.h"
 
 Tab tab_start(int w, int h, int show_msg)
 {

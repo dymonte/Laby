@@ -1,4 +1,4 @@
-#include "../deps/verif.h"
+#include "verif.h"
 #include <stdio.h>
 #include <stdlib.h>
 

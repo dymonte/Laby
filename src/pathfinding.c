@@ -1,4 +1,4 @@
-#include "../deps/pathfinding.h"
+#include "pathfinding.h"
 
 Lst_co pathfinding_recursive(Tab *tab, Lst_co l)
 {
